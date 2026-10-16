@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1E2F">
+<meta name="description" content="فكرة هاكاثون: كيف يدفع حد التوصيل المجاني الزبائن لطلب أكل زائد، وكيف يحل التوصيل المتدرج المشكلة.">
+<title>توصيل بلا هدر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;700;800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one RTL column (max 1120px) on the hackathon poster's deep navy. Hero = mint/gold thesis + paper receipts; two iPhone-17-sized phones with light app screens; chart, formula, table, impact calculator. Single dark theme by choice, matching the poster. */
+:root{
+  color-scheme:dark;
+  --bg:#0A1E2F;
+  --bg-2:#0E2A40;
+  --bg-glow:#17445F;
+  --surface:#10304A;
+  --surface-2:#163D59;
+  --line:#28526E;
+  --ink:#EEF4F7;
+  --on-mint:#0B2436;
+  --muted:#A6BBC9;
+  --mint:#7FDCA9;
+  --mint-hi:#C9F2D8;
+  --mint-2:#5FCB95;
+  --mint-soft:rgb(127 220 169 / .12);
+  --mint-line:rgb(127 220 169 / .38);
+  --gold:#EDC45C;
+  --gold-soft:rgb(237 196 92 / .16);
+  --coral:#F2896A;
+  --coral-soft:rgb(242 137 106 / .16);
+  --shade:rgb(2 10 18 / .55);
+  /* light objects: receipts and the app screens inside the phones */
+  --paper:#F6F8F7; --paper-ink:#10283A; --paper-muted:#5F7383; --paper-line:#D3DCE2;
+  --app-bg:#F3F6F8; --app-card:#FFFFFF; --app-ink:#122433; --app-muted:#647889; --app-line:#E0E7EC;
+  --app-gold:#C08B12; --app-gold-soft:#FBF0D2; --app-mint:#1E8A5B; --app-mint-soft:#DDF3E7;
+  --app-coral:#C2502F; --app-coral-soft:#FBE4DC;
+  --cover-a:#F4C36A; --cover-b:#E07B45; --cover-ink:#FFFFFF;
+  /* phone hardware: iPhone 17 finishes */
+  --bezel:#05080B;
+  --mist:#B4C5D6; --mist-dk:#71879C;
+  --sage:#BCCBB6; --sage-dk:#7A8F7A;
+  --f-display:"Alexandria","IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;
+  --f-body:"IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;
+  --f-num:"IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;
+  --f-mono:"IBM Plex Mono","IBM Plex Sans Arabic",ui-monospace,Consolas,monospace;
+  --f-ios:-apple-system,"SF Pro Text",system-ui,"Segoe UI",sans-serif;
+  --fs-hero:clamp(2.1rem,4.6vw,3.5rem);
+  --fs-h2:clamp(1.55rem,3vw,2.2rem);
+  --fs-body:1.0625rem;
+  --fs-small:.875rem;
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background-color:var(--bg);background-image:radial-gradient(1100px 520px at 50% -140px,var(--bg-glow),transparent 70%),linear-gradient(180deg,var(--bg-2) 0,var(--bg) 900px);background-repeat:no-repeat;color:var(--ink);font-family:var(--f-body);font-size:var(--fs-body);line-height:1.75}
+.wrap{max-width:1120px;margin-inline:auto;padding-inline:clamp(16px,4vw,32px)}
+h1,h2,h3{font-family:var(--f-display);line-height:1.3;text-wrap:balance;margin:0}
+p{margin:0}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums;unicode-bidi:isolate;direction:ltr;display:inline-block}
+.eyebrow{font-size:var(--fs-small);font-weight:600;color:var(--mint);letter-spacing:.02em}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding-block:20px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:700;font-size:1.1rem;text-decoration:none}
+.brand svg{width:30px;height:30px;color:var(--mint)}
+.top nav{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:var(--fs-small)}
+.top nav a{text-decoration:none;color:var(--muted)}
+.top nav a:hover{color:var(--mint)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center;padding-block:clamp(32px,6vw,72px) clamp(48px,7vw,88px)}
+.hero-text{display:grid;gap:20px;min-width:0}
+.hero .eyebrow{color:var(--ink);opacity:.85}
+.hero h1{font-size:var(--fs-hero);font-weight:800;line-height:1.3;background:linear-gradient(180deg,var(--mint-hi),var(--mint) 55%,var(--mint-2));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgb(127 220 169 / .22))}
+.hero h1 .gold{color:var(--gold);-webkit-text-fill-color:var(--gold)}
+.lede{color:var(--muted);max-width:34em;font-size:1.125rem}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:700 .95rem var(--f-body);padding:10px 20px;border-radius:999px;border:1px solid var(--mint-line);background:transparent;color:var(--mint);text-decoration:none;cursor:pointer;transition:background .2s,box-shadow .2s}
+.btn:hover{background:var(--mint-soft)}
+.btn.primary{background:linear-gradient(180deg,var(--mint-hi),var(--mint-2));color:var(--on-mint);border-color:transparent;box-shadow:0 0 0 4px var(--mint-soft),0 8px 26px rgb(95 203 149 / .35)}
+.btn.primary:hover{box-shadow:0 0 0 6px var(--mint-soft),0 10px 30px rgb(95 203 149 / .5)}
+.btn svg{width:18px;height:18px}
+
+.receipts{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;min-width:0}
+.rc-wrap{filter:drop-shadow(0 14px 22px var(--shade));min-width:0}
+.rc-wrap:first-child{transform:rotate(1.5deg);margin-top:28px}
+.rc-wrap:nth-child(2){transform:rotate(-1.5deg)}
+.receipt{--z:8px;position:relative;margin:0;background:var(--paper);color:var(--paper-ink);padding:18px 16px calc(var(--z) + 22px);font-family:var(--f-mono);font-size:.84rem;line-height:1.6;
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/calc(2*var(--z)) 100%;
+  mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/calc(2*var(--z)) 100%}
+.rc-head{text-align:center;border-bottom:1px dashed var(--paper-line);padding-bottom:10px;margin-bottom:10px;font-family:var(--f-body)}
+.rc-head strong{display:block;font-family:var(--f-display);font-size:1rem}
+.rc-head span{color:var(--paper-muted);font-size:.78rem}
+.rc-lines{margin:0;display:grid;gap:4px}
+.rc-lines div{display:flex;justify-content:space-between;gap:8px;padding:2px 4px;border-radius:4px}
+.rc-lines dt{font-family:var(--f-body)}
+.rc-lines dd{margin:0}
+.rc-lines .extra{background:var(--app-gold-soft)}
+.rc-lines s{color:var(--paper-muted)}
+.rc-total{display:flex;justify-content:space-between;border-top:1px dashed var(--paper-line);margin-top:10px;padding-top:10px;font-weight:600;font-size:.95rem}
+.rc-total span:first-child{font-family:var(--f-body)}
+.stamp{position:absolute;inset-inline-start:10px;bottom:34px;transform:rotate(-12deg);border:2px solid var(--app-coral);color:var(--app-coral);font:700 .85rem var(--f-display);padding:3px 10px;border-radius:6px;background:var(--paper)}
+.rc-caption{grid-column:1/-1;font-size:var(--fs-small);color:var(--muted);text-align:center;margin-top:8px}
+
+/* sections */
+.sec{padding-block:clamp(56px,8vw,96px);border-top:1px solid var(--line)}
+.sec-head{display:grid;gap:10px;max-width:46em;margin-bottom:clamp(24px,4vw,40px)}
+.sec-head .eyebrow{display:flex;align-items:center;gap:12px}
+.sec-head .eyebrow::after{content:"";flex:1;height:1px;background:linear-gradient(to left,var(--mint-line),transparent)}
+.sec-head h2{font-size:var(--fs-h2);font-weight:700}
+.sec-head p:last-child{color:var(--muted)}
+.pill{display:inline-block;font:600 .8rem var(--f-body);padding:3px 12px;border-radius:999px;white-space:nowrap}
+.pill.bad{background:var(--coral-soft);color:var(--coral)}
+.pill.good{background:var(--mint-soft);color:var(--mint)}
+
+/* try: toolbar + phones */
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px;margin-bottom:32px}
+.toolbar .hint{font-size:var(--fs-small);color:var(--muted);flex:1 1 260px;min-width:0}
+.phones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,5vw,56px)}
+.device{display:flex;flex-direction:column;gap:18px;min-width:0}
+.device-label{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:4.4em;max-width:380px;width:100%;margin-inline:auto;font-size:var(--fs-small);color:var(--muted);line-height:1.5}
+
+/* iPhone 17 shell: 402 x 874 pt screen, Dynamic Island, side buttons */
+.iphone{--frame:var(--mist);--frame-dk:var(--mist-dk);position:relative;width:min(100%,380px);height:clamp(600px,calc(100svh - 110px),790px);margin-inline:auto;border-radius:62px;padding:4px;background:linear-gradient(135deg,var(--frame) 0%,var(--frame-dk) 42%,var(--frame) 70%,var(--frame-dk) 100%);box-shadow:0 34px 70px var(--shade)}
+.is-b .iphone{--frame:var(--sage);--frame-dk:var(--sage-dk)}
+.hw{position:absolute;width:4px;border-radius:2px;background:linear-gradient(90deg,var(--frame-dk),var(--frame))}
+.hw.action{left:-3px;top:14%;height:3.6%}
+.hw.vol-up{left:-3px;top:20.5%;height:6.5%}
+.hw.vol-dn{left:-3px;top:28.5%;height:6.5%}
+.hw.power{right:-3px;top:23%;height:10.5%}
+.hw.cam{right:-3px;top:57%;height:6.5%}
+.bezel{height:100%;border-radius:58px;background:var(--bezel);padding:10px}
+.screen{position:relative;height:100%;border-radius:48px;overflow:hidden;background:var(--app-bg);color:var(--app-ink);display:flex;flex-direction:column;font-size:15px;line-height:1.5}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:124px;height:36px;border-radius:20px;background:var(--bezel);z-index:3}
+.status{flex:none;height:56px;display:flex;align-items:center;justify-content:space-between;padding:4px 34px 0;font:600 16px/1 var(--f-ios);position:relative;z-index:2}
+.status-icons{display:flex;align-items:center;gap:6px;direction:ltr}
+.status-icons svg{fill:currentColor;display:block}
+.home{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:36%;height:5px;border-radius:3px;background:var(--app-ink);z-index:3}
+
+.app-cover{flex:none;position:relative;height:118px;margin:0 14px;border-radius:24px;overflow:hidden;background:radial-gradient(circle at 20% 20%,rgb(255 255 255 / .35),transparent 45%),linear-gradient(135deg,var(--cover-a),var(--cover-b));display:grid;place-items:center}
+.app-cover svg{width:86px;height:86px;fill:none;stroke:var(--cover-ink);stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round}
+.app-cover svg .fb{fill:rgb(255 255 255 / .2)}
+.cover-tag{position:absolute;bottom:10px;inset-inline-start:12px;background:rgb(255 255 255 / .9);color:var(--app-ink);font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px}
+.app-info{flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 20px 8px}
+.app-info strong{font-family:var(--f-display);font-size:1.15rem;display:block;line-height:1.4}
+.app-info small{color:var(--app-muted);font-size:12px}
+.policy{font-size:11px;font-weight:700;padding:5px 10px;border-radius:10px;text-align:center;line-height:1.4;flex:none}
+.is-a .policy{background:var(--app-gold-soft);color:var(--app-ink)}
+.is-b .policy{background:var(--app-mint-soft);color:var(--app-mint)}
+.app-scroll{flex:1;min-height:0;position:relative;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--app-muted) transparent}
+.app-scroll::-webkit-scrollbar{width:5px}
+.app-scroll::-webkit-scrollbar-track{background:transparent;margin-block:8px}
+.app-scroll::-webkit-scrollbar-thumb{background:var(--app-muted);border-radius:3px}
+.scroll-hint{position:sticky;bottom:10px;z-index:2;display:flex;align-items:center;gap:6px;width:fit-content;margin:-34px auto 10px;padding:5px 12px;border-radius:999px;background:var(--app-ink);color:var(--app-card);font-size:12px;font-weight:600;box-shadow:0 6px 16px rgb(18 36 51 / .25);transition:opacity .3s,transform .3s;pointer-events:none}
+.scroll-hint svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;animation:nudge-down 1.4s ease-in-out infinite}
+.screen.scrolled .scroll-hint{opacity:0;transform:translateY(8px)}
+@keyframes nudge-down{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
+.app-scroll:focus-visible{outline-offset:-3px;outline-color:var(--app-mint)}
+.app-tabs{position:sticky;top:0;z-index:2;background:var(--app-bg);display:flex;gap:6px;padding:8px 16px 10px;overflow-x:auto;scrollbar-width:none}
+.app-tabs::-webkit-scrollbar{display:none}
+.app-tabs button{flex:none;font:600 12px/1.5 var(--f-body);padding:5px 13px;border-radius:999px;background:var(--app-card);border:1px solid var(--app-line);color:var(--app-muted);white-space:nowrap;cursor:pointer;transition:background .2s,color .2s}
+.app-tabs button:hover{color:var(--app-ink);border-color:var(--app-ink)}
+.app-tabs button.on{background:var(--app-ink);border-color:var(--app-ink);color:var(--app-card)}
+.is-b .app-tabs button.on{background:var(--app-mint);border-color:var(--app-mint)}
+.app-tabs button:focus-visible{outline-color:var(--app-mint);outline-offset:1px}
+
+.menu{list-style:none;margin:0;padding:2px 14px 16px;display:flex;flex-direction:column;gap:8px}
+.item{flex:none;display:grid;grid-template-columns:42px minmax(0,1fr) auto;grid-template-areas:"ico name price" "ico meta meta" "ico facts step";align-items:center;column-gap:10px;row-gap:1px;padding:10px 12px;border-radius:18px;background:var(--app-card);border:1.5px solid var(--app-line);transition:border-color .25s}
+.item.in{border-color:var(--app-ink)}
+.ico{width:42px;height:42px;border-radius:14px;background:var(--app-gold-soft);color:var(--app-ink);display:grid;place-items:center}
+.ico svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ico .fb{fill:var(--app-gold-soft)}
+.ico .dt{fill:currentColor;stroke:none}
+.item .ico{grid-area:ico;align-self:start}
+.item-name{grid-area:name;min-width:0;font-weight:700;font-size:14.5px;line-height:1.45}
+.item .price{grid-area:price;font-weight:700;font-size:13px;white-space:nowrap}
+.item-meta{grid-area:meta;min-width:0;font-size:12px;line-height:1.45;color:var(--app-muted)}
+.facts{grid-area:facts;display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:11.5px;color:var(--app-muted);min-width:0}
+.facts .f{background:var(--app-bg);border-radius:6px;padding:1px 7px;white-space:nowrap}
+.stepper{grid-area:step}
+.stepper{display:flex;align-items:center;gap:6px}
+.step{width:30px;height:30px;border-radius:50%;border:1px solid var(--app-line);background:var(--app-bg);color:var(--app-ink);font:600 1.1rem/1 var(--f-num);cursor:pointer;display:grid;place-items:center;padding:0}
+.step:hover:not(:disabled){border-color:var(--app-ink)}
+.step:disabled{opacity:.35;cursor:default}
+.step:focus-visible{outline-color:var(--app-mint)}
+.qty{min-width:1.3em;text-align:center;font-family:var(--f-num);font-weight:600}
+.item.flash{animation:ring 1.4s ease-out}
+@keyframes ring{0%,40%{box-shadow:0 0 0 3px var(--gold)}100%{box-shadow:0 0 0 3px transparent}}
+
+.cart{flex:none;background:var(--app-card);border-radius:26px 26px 0 0;box-shadow:0 -10px 26px rgb(18 36 51 / .08);padding:12px 16px 26px;display:grid;gap:8px;position:relative;z-index:2}
+.nudge{border-radius:14px;padding:9px 12px;font-size:12.5px;line-height:1.6;background:var(--app-bg)}
+.nudge.hot{background:var(--app-gold-soft)}
+.nudge.ok{background:var(--app-mint-soft)}
+.nudge b{font-weight:700}
+.bar{height:6px;background:var(--app-line);border-radius:3px;overflow:hidden;margin-top:7px}
+.bar span{display:block;height:100%;background:var(--app-gold);border-radius:3px;transition:width .4s}
+.nudge.ok .bar span{background:var(--app-mint)}
+.lines{margin:0;display:grid;gap:2px;font-size:13.5px}
+.lines div{display:flex;justify-content:space-between;gap:10px}
+.lines dt{color:var(--app-muted)}
+.lines dd{margin:0}
+.lines s{color:var(--app-muted);margin-inline-end:6px}
+.lines .nut{font-size:12px}
+.free{color:var(--app-mint);font-weight:700}
+.paybtn{display:flex;justify-content:space-between;align-items:center;border-radius:16px;padding:12px 16px;font-weight:700;background:var(--app-ink);color:var(--app-card)}
+.is-b .paybtn{background:var(--app-mint)}
+.paybtn strong{font-family:var(--f-display);font-size:1.15rem}
+
+.readout{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;width:100%;margin-inline:auto}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;min-width:0}
+.stat-k{display:block;font-size:.8rem;color:var(--muted);line-height:1.5}
+.stat-v{display:block;font-family:var(--f-display);font-weight:700;font-size:1.35rem;line-height:1.5}
+.stat-v small{font-size:.8rem;font-weight:500}
+.bad-t{color:var(--coral)}
+.good-t{color:var(--mint)}
+.verdict{grid-column:1/-1;border-radius:14px;padding:12px 14px;font-size:.9rem;line-height:1.7;border:1px solid transparent}
+.verdict.bad{background:var(--coral-soft);border-color:rgb(242 137 106 / .3)}
+.verdict.good{background:var(--mint-soft);border-color:var(--mint-line)}
+.verdict.info{background:var(--surface-2);border-color:var(--line)}
+
+/* why: chart */
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:var(--fs-small);margin-bottom:14px}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.sw{width:22px;height:4px;border-radius:2px;display:inline-block}
+.sw.a{background:var(--coral)}
+.sw.b{background:var(--mint)}
+.sw.s{background:var(--ink)}
+.sw.z{height:12px;width:16px;background:var(--gold-soft);border:1px solid var(--gold)}
+.chart-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(12px,2.5vw,24px)}
+.chart-scroll{overflow-x:auto}
+#chart{display:block;width:100%;min-width:560px;height:auto}
+#chart .grid{stroke:var(--line);stroke-width:1}
+#chart .axis{stroke:var(--muted);stroke-width:1}
+#chart .tick{fill:var(--muted);font:12px var(--f-num)}
+#chart .ttl{fill:var(--muted);font:500 13px var(--f-body)}
+#chart .zone{fill:var(--gold-soft)}
+#chart .zone-edge{stroke:var(--gold);stroke-width:1;stroke-dasharray:3 4}
+#chart .zone-label{fill:var(--gold);font:700 14px var(--f-display)}
+#chart .guide-label{fill:var(--ink);font:600 12px var(--f-body)}
+#chart .note{fill:var(--ink);font:500 12px var(--f-body)}
+#chart .ln{fill:none;stroke-width:3;stroke-linecap:round}
+#chart .ln.a{stroke:var(--coral)}
+#chart .ln.b{stroke:var(--mint)}
+#chart .ln.s{stroke:var(--ink)}
+#chart .drop{stroke:var(--coral);stroke-width:2;stroke-dasharray:4 4}
+#chart .dot.a{fill:var(--coral)}
+#chart .dot.b{fill:var(--mint)}
+#chart .dot.s{fill:var(--ink)}
+#chart .dot.open{fill:var(--surface);stroke:var(--coral);stroke-width:2}
+.why-notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 32px;margin-top:24px;max-width:60em}
+.why-notes p{color:var(--muted);font-size:.95rem}
+.why-notes b{color:var(--ink)}
+
+/* solution */
+.solution{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,48px);align-items:start}
+.formula{background:linear-gradient(180deg,var(--mint-soft),rgb(127 220 169 / .04));border:1px solid var(--mint-line);border-radius:20px;padding:clamp(20px,3vw,32px);display:grid;grid-template-columns:minmax(0,1fr);gap:14px;min-width:0}
+.eq{display:grid;gap:8px;font-size:clamp(1.05rem,1.6vw,1.2rem);font-weight:700;line-height:1.6}
+.eq p{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 14px}
+.eq .op{color:var(--muted)}
+.eq em{font-style:normal;color:var(--gold)}
+.formula .note{color:var(--muted);font-size:.95rem}
+.formula .note b{color:var(--ink)}
+.formula{container-type:inline-size}
+.steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@container (min-width:440px){.steps{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.steps small,.steps b{white-space:nowrap}
+.steps div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 10px;display:grid;gap:2px;text-align:center}
+.steps small{font-size:.74rem;color:var(--muted)}
+.steps b{font-size:.95rem;color:var(--mint)}
+.table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+.cmp{width:100%;border-collapse:collapse;font-size:.95rem;min-width:440px}
+.cmp th,.cmp td{padding:13px 16px;text-align:start;border-bottom:1px solid var(--line);vertical-align:middle}
+.cmp tbody tr:last-child th,.cmp tbody tr:last-child td{border-bottom:0}
+.cmp thead th{font-weight:600;background:var(--surface-2)}
+.cmp tbody th{font-weight:500;color:var(--muted)}
+.cmp td{font-weight:600;white-space:nowrap}
+.cmp tr.key td{font-size:1.15rem;font-weight:700;color:var(--gold)}
+.cmp tr.key th{color:var(--ink);font-weight:700}
+.cmp tr.key{background:var(--gold-soft)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* impact */
+.impact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,48px);align-items:start}
+.controls{display:grid;gap:22px}
+.ctl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:baseline}
+.ctl label{font-weight:500}
+.ctl output{font-family:var(--f-num);font-weight:600;color:var(--mint)}
+.ctl input{grid-column:1/-1;width:100%;accent-color:var(--mint)}
+.results{display:grid;gap:12px}
+.res{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 20px;display:grid;gap:2px}
+.res-k{font-size:var(--fs-small);color:var(--muted)}
+.res-v{font-family:var(--f-display);font-weight:800;font-size:clamp(1.6rem,3.4vw,2.2rem);line-height:1.4;color:var(--gold)}
+.res-n{font-size:.78rem;color:var(--muted)}
+.fine{font-size:var(--fs-small);color:var(--muted);margin-top:20px}
+
+/* summary */
+.points{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.points li{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;display:grid;gap:6px;align-content:start}
+.points h3{font-size:1.1rem}
+.points li:nth-child(1) h3{color:var(--coral)}
+.points li:nth-child(2) h3,.points li:nth-child(3) h3{color:var(--mint)}
+.points p{color:var(--muted);font-size:.95rem}
+footer{padding-block:28px 40px;border-top:1px solid var(--line);font-size:var(--fs-small);color:var(--muted)}
+
+@media (max-width:980px){
+  .phones{grid-template-columns:1fr;gap:56px}
+}
+@media (max-width:900px){
+  .hero,.solution,.impact{grid-template-columns:1fr}
+  .points{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .why-notes{grid-template-columns:1fr}
+}
+@media (max-width:480px){
+  .receipts{grid-template-columns:1fr}
+  .rc-wrap:first-child{margin-top:0}
+  .readout{grid-template-columns:1fr}
+  .iphone{border-radius:56px;height:clamp(560px,calc(100svh - 90px),740px)}
+  .bezel{border-radius:52px;padding:9px}
+  .screen{border-radius:44px}
+  .status{padding-inline:26px}
+  .island{width:104px;height:32px}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<div dir="rtl" lang="ar">
+
+<header class="top wrap">
+  <a class="brand" href="#top" id="top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 3h12v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5L6 21z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>
+    توصيل بلا هدر
+  </a>
+  <nav aria-label="أقسام الصفحة">
+    <a href="#try">جرّب المثال</a>
+    <a href="#why">لماذا يحدث</a>
+    <a href="#solution">الحل</a>
+    <a href="#impact">الأثر</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero wrap">
+  <div class="hero-text">
+    <p class="eyebrow">مشاركة في هاكاثون الفقد والهدر الغذائي</p>
+    <h1>التوصيل المجاني يدفعك لطلب أكل <span class="gold">لا تحتاجه</span>.</h1>
+    <p class="lede">كثير من تطبيقات التوصيل تجعل التوصيل مجانيًا عندما يتجاوز طلبك مبلغًا معينًا. إذا كانت وجبتك أقل من الحد بقليل، تصبح إضافة طبق جانبي أرخص من دفع رسوم التوصيل. فيصل إلى البيت أكل لم يكن أحد يحتاجه، وقد ينتهي في القمامة.</p>
+    <div class="cta">
+      <a class="btn primary" href="#try"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>جرّب المثال بنفسك</a>
+      <a class="btn" href="#solution">شاهد الحل</a>
+    </div>
+  </div>
+
+  <div class="receipts" aria-label="مقارنة بين فاتورتين لهما نفس الإجمالي">
+    <div class="rc-wrap">
+      <figure class="receipt">
+        <div class="rc-head"><strong>مطعم افتراضي</strong><span>الخيار الأول · البرجر فقط</span></div>
+        <dl class="rc-lines">
+          <div><dt>برجر كلاسيك</dt><dd>25.00</dd></div>
+          <div><dt>رسوم التوصيل</dt><dd>10.00</dd></div>
+        </dl>
+        <div class="rc-total"><span>الإجمالي</span><span>35.00 ر.س</span></div>
+      </figure>
+    </div>
+    <div class="rc-wrap">
+      <figure class="receipt">
+        <div class="rc-head"><strong>مطعم افتراضي</strong><span>الخيار الثاني · مع ناجتس</span></div>
+        <dl class="rc-lines">
+          <div><dt>برجر كلاسيك</dt><dd>25.00</dd></div>
+          <div class="extra"><dt>ناجتس 6 قطع</dt><dd>10.00</dd></div>
+          <div><dt>رسوم التوصيل</dt><dd><s>10.00</s> 0.00</dd></div>
+        </dl>
+        <div class="rc-total"><span>الإجمالي</span><span>35.00 ر.س</span></div>
+        <span class="stamp">نفس الإجمالي</span>
+      </figure>
+    </div>
+    <p class="rc-caption">المبلغ واحد في الحالتين، فمن الطبيعي أن يختار الزبون الفاتورة الثانية. الناجتس يبدو مجانيًا حتى لو لم يكن جائعًا له.</p>
+  </div>
+</section>
+
+<section class="sec wrap" id="try">
+  <div class="sec-head">
+    <p class="eyebrow">جرّب بنفسك</p>
+    <h2>نفس المطعم ونفس الأسعار ونفس حد الـ35 ريالًا</h2>
+    <p>الزبون في هذا المثال يريد برجرًا واحدًا فقط. ضع نفس الطلب في الجوالين وقارن رسوم التوصيل، ثم راقب كم تكلفك إضافة الناجتس فعليًا في كل تطبيق.</p>
+  </div>
+
+  <div class="toolbar">
+    <button type="button" class="btn primary" id="smart">دع الزبون يختار الأرخص</button>
+    <button type="button" class="btn" id="reset">ابدأ من جديد</button>
+    <p class="hint">الزبون يختار الفاتورة الأقل، وإذا تساوت فاتورتان يأخذ التي فيها أكل أكثر.</p>
+  </div>
+
+  <div class="phones">
+    <article class="device is-a" aria-label="التطبيق الحالي">
+      <div class="device-label"><span class="pill bad">الوضع الحالي</span><span>توصيل 10 ر.س، ويصير مجانيًا دفعة واحدة عند 35 ر.س</span></div>
+      <div class="iphone">
+        <span class="hw action"></span><span class="hw vol-up"></span><span class="hw vol-dn"></span><span class="hw power"></span><span class="hw cam"></span>
+        <div class="bezel"><div class="screen">
+          <div class="island"></div>
+          <div class="status" aria-hidden="true"><span>9:41</span><span class="status-icons"></span></div>
+          <div class="app-scroll" tabindex="0" aria-label="قائمة المطعم">
+          <div class="app-cover" aria-hidden="true"><svg viewBox="0 0 24 24" class="cover-art"></svg><span class="cover-tag">مفتوح الآن</span></div>
+          <div class="app-info">
+            <div><strong>مطعم افتراضي</strong><small>تقييم 4.7 · يبعد 2.1 كم</small></div>
+            <span class="policy">توصيل مجاني<br>من 35 ر.س</span>
+          </div>
+          <div class="app-tabs" role="group" aria-label="أقسام القائمة"></div>
+          <ul class="menu" id="menu-a"></ul>
+          <div class="scroll-hint" aria-hidden="true">مرّر لرؤية القائمة<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+          <div class="cart" id="checkout-a" aria-live="polite"></div>
+          <div class="home"></div>
+        </div></div>
+      </div>
+      <div class="readout" id="readout-a"></div>
+    </article>
+
+    <article class="device is-b" aria-label="تطبيق التوصيل المتدرج">
+      <div class="device-label"><span class="pill good">حلّنا: توصيل ينقص بالتدريج</span><span>يبدأ 10 ر.س وينقص مع كل ريال حتى يصير مجانيًا عند 35 ر.س</span></div>
+      <div class="iphone">
+        <span class="hw action"></span><span class="hw vol-up"></span><span class="hw vol-dn"></span><span class="hw power"></span><span class="hw cam"></span>
+        <div class="bezel"><div class="screen">
+          <div class="island"></div>
+          <div class="status" aria-hidden="true"><span>9:41</span><span class="status-icons"></span></div>
+          <div class="app-scroll" tabindex="0" aria-label="قائمة المطعم">
+          <div class="app-cover" aria-hidden="true"><svg viewBox="0 0 24 24" class="cover-art"></svg><span class="cover-tag">مفتوح الآن</span></div>
+          <div class="app-info">
+            <div><strong>مطعم افتراضي</strong><small>تقييم 4.7 · يبعد 2.1 كم</small></div>
+            <span class="policy">التوصيل ينقص<br>مع كل إضافة</span>
+          </div>
+          <div class="app-tabs" role="group" aria-label="أقسام القائمة"></div>
+          <ul class="menu" id="menu-b"></ul>
+          <div class="scroll-hint" aria-hidden="true">مرّر لرؤية القائمة<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+          <div class="cart" id="checkout-b" aria-live="polite"></div>
+          <div class="home"></div>
+        </div></div>
+      </div>
+      <div class="readout" id="readout-b"></div>
+    </article>
+  </div>
+</section>
+
+<section class="sec wrap" id="why">
+  <div class="sec-head">
+    <p class="eyebrow">لماذا يحدث هذا</p>
+    <h2>بين 25 و35 ريالًا، الطلب الأكبر أرخص</h2>
+    <p>الرسم يوضح ما يدفعه الزبون مقابل قيمة الأكل في سلته. في الوضع الحالي ينخفض الإجمالي فجأة عند 35 ريالًا لأن التوصيل يصبح مجانيًا دفعة واحدة، وهذا الانخفاض هو ما يصنع منطقة الهدر.</p>
+  </div>
+  <div class="chart-card">
+    <div class="legend">
+      <span><i class="sw a"></i>الوضع الحالي</span>
+      <span><i class="sw b"></i>حلّنا: توصيل متدرج</span>
+      <span><i class="sw s"></i>النموذجان متطابقان (توصيل مجاني)</span>
+      <span><i class="sw z"></i>منطقة الهدر</span>
+    </div>
+    <div class="chart-scroll" dir="ltr"><svg id="chart" viewBox="0 0 680 380" role="img" aria-label="رسم بياني لإجمالي الفاتورة مقابل قيمة الأكل في النموذجين"></svg></div>
+  </div>
+  <div class="why-notes">
+    <p><b>الخط البرتقالي:</b> أي سلة قيمتها بين 25 و35 ريالًا تدفع أكثر إذا لم تُضف أكلًا. سلة بـ30 ريالًا تكلّف 40، ولو أضفت 5 ريالات من الأكل تنخفض إلى 35. التطبيق يكافئك على طلب أكثر.</p>
+    <p><b>الخط الأخضر:</b> التوصيل ينقص مع كل ريال تضيفه حتى يصير مجانيًا عند 35، لكنه ينقص أقل من سعر الأكل نفسه، فالإجمالي يرتفع دائمًا بهدوء. لا توجد قفزة، ولا لحظة يصير فيها الصنف الإضافي مجانيًا.</p>
+  </div>
+</section>
+
+<section class="sec wrap" id="solution">
+  <div class="sec-head">
+    <p class="eyebrow">الحل</p>
+    <h2>خصم على التوصيل يكبر مع الطلب، بالتدريج</h2>
+    <p>نحتفظ بنفس رسوم التوصيل ونفس حد الـ35 ريالًا. الفرق أن الخصم لا يأتي دفعة واحدة عند الحد، بل يبدأ من أول ريال ويزيد بنسبة قيمة الطلب.</p>
+  </div>
+  <div class="solution">
+    <div class="formula">
+      <p class="eyebrow">المعادلة</p>
+      <div class="eq">
+        <p><span>نسبة الخصم</span><span class="op">=</span><em>قيمة الطلب ÷ 35</em></p>
+        <p><span>رسوم التوصيل</span><span class="op">=</span><span>10 ر.س × (100% − نسبة الخصم)</span></p>
+      </div>
+      <p class="eyebrow">رسوم التوصيل حسب قيمة الطلب</p>
+      <div class="steps" id="steps"></div>
+      <p class="note">كل ريال تضيفه ينقص التوصيل <b class="num">29</b> هللة تقريبًا، بينما يكلفك ريالًا كاملًا من الأكل. لهذا يرتفع الإجمالي مع كل إضافة، ولا يصير الصنف الزائد أرخص من عدمه أبدًا.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="cmp">
+        <caption class="vh">مقارنة طلب برجر واحد في النموذجين</caption>
+        <thead><tr><th scope="col"><span class="vh">البند</span></th><th scope="col"><span class="pill bad">الوضع الحالي</span></th><th scope="col"><span class="pill good">حلّنا</span></th></tr></thead>
+        <tbody>
+          <tr><th scope="row">رسوم توصيل البرجر وحده</th><td id="t-a-0"></td><td id="t-b-0"></td></tr>
+          <tr><th scope="row">إجمالي البرجر وحده</th><td id="t-a-1"></td><td id="t-b-1"></td></tr>
+          <tr><th scope="row">إجمالي البرجر مع الناجتس</th><td id="t-a-2"></td><td id="t-b-2"></td></tr>
+          <tr class="key"><th scope="row">التكلفة الفعلية لإضافة الناجتس</th><td id="t-a-3"></td><td id="t-b-3"></td></tr>
+          <tr><th scope="row">ماذا سيطلب الزبون؟</th><td id="t-a-4"></td><td id="t-b-4"></td></tr>
+          <tr><th scope="row">أكل زائد في الطلب</th><td id="t-a-5"></td><td id="t-b-5"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="sec wrap" id="impact">
+  <div class="sec-head">
+    <p class="eyebrow">الأثر</p>
+    <h2>كم يتراكم هذا في مدينة واحدة؟</h2>
+    <p>طلب زائد واحد لا يبدو مشكلة. حرّك الأرقام لترى حجم الأكل الزائد عندما يتكرر نفس القرار في آلاف الطلبات كل يوم، بافتراض أن الطلب الجانبي الزائد وزنه 200 غ.</p>
+  </div>
+  <div class="impact">
+    <div class="controls">
+      <div class="ctl"><label for="orders">الطلبات اليومية في المدينة</label><output class="num" id="orders-out" for="orders"></output><input type="range" id="orders" min="10000" max="500000" step="10000" value="100000"></div>
+      <div class="ctl"><label for="share">طلبات فيها طلب زائد للوصول إلى الحد</label><output class="num" id="share-out" for="share"></output><input type="range" id="share" min="5" max="40" step="1" value="15"></div>
+      <div class="ctl"><label for="grams">وزن الطلب الجانبي الزائد</label><output class="num" id="grams-out" for="grams"></output><input type="range" id="grams" min="50" max="400" step="10" value="200"></div>
+    </div>
+    <div class="results" aria-live="polite">
+      <div class="res"><span class="res-k">أكل زائد يوميًا</span><span class="res-v" id="r-day"></span></div>
+      <div class="res"><span class="res-k">أكل زائد سنويًا</span><span class="res-v" id="r-year"></span></div>
+      <div class="res"><span class="res-k">إنفاق سنوي على طلبات زائدة</span><span class="res-v" id="r-sar"></span><span class="res-n">بافتراض 10 ر.س لكل طلب زائد، مثل الناجتس في المثال</span></div>
+    </div>
+  </div>
+  <p class="fine">كل الأرقام في هذا القسم افتراضات للتوضيح وليست بيانات رسمية. استبدلها ببيانات حقيقية عند توفرها.</p>
+</section>
+
+<section class="sec wrap" id="summary">
+  <div class="sec-head">
+    <p class="eyebrow">الفكرة باختصار</p>
+    <h2>ادفع على قدر طلبك، واطلب على قدر جوعك</h2>
+  </div>
+  <ul class="points">
+    <li><h3>المشكلة</h3><p>التوصيل المجاني الذي يأتي دفعة واحدة عند 35 ريالًا يجعل إضافة الأكل أرخص من دفع التوصيل، فيطلب الناس أكثر مما يحتاجون.</p></li>
+    <li><h3>الحل</h3><p>خصم على التوصيل يزيد بالتدريج مع قيمة الطلب حتى يصير مجانيًا عند نفس الحد، فيكون لكل صنف إضافي ثمن واضح.</p></li>
+    <li><h3>النتيجة</h3><p>الطلب الصغير يدفع توصيلًا أقل من اليوم، والطلب الكبير يبقى مجانيًا كما هو، ولا يملك الزبون سببًا لإضافة ما لا يريده.</p></li>
+  </ul>
+</section>
+</main>
+
+<footer class="wrap">نموذج توضيحي لفكرة هاكاثون. المطعم والأسعار والأرقام كلها أمثلة، والأوزان والسعرات تقريبية.</footer>
+</div>
+
+<script>
+(function(){
+  document.documentElement.lang = 'ar';
+  document.documentElement.dir = 'rtl';
+
+  var THRESHOLD = 35, FLAT_FEE = 10;
+  var ICONS = {
+    burger:'<path d="M4.5 10.5C4.5 7 7.9 4.5 12 4.5s7.5 2.5 7.5 6z" class="fb"/><path d="M4 13.5c1.3-1 2.7-1 4 0s2.7 1 4 0 2.7-1 4 0 2.7 1 4 0"/><path d="M5 16.5h14v.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 17z" class="fb"/>',
+    nuggets:'<ellipse class="fb" cx="8.5" cy="9.5" rx="4.2" ry="3.2" transform="rotate(-15 8.5 9.5)"/><ellipse class="fb" cx="15.5" cy="12" rx="4.2" ry="3.2" transform="rotate(20 15.5 12)"/><ellipse class="fb" cx="9.5" cy="16.5" rx="4" ry="3" transform="rotate(5 9.5 16.5)"/>',
+    fries:'<path d="M8 10V4.5M10.5 10V3.5M13 10V4M15.5 10V5"/><path class="fb" d="M5.5 9.5h13l-1.6 10.5H7.1z"/>',
+    drink:'<path d="M12.5 7.5 14 3.5h2.5"/><path class="fb" d="M6.5 7.5h11L16.3 20H7.7z"/><path d="M5.5 7.5h13"/><path d="M7.2 12h9.6"/>',
+    chicken:'<path d="M4.5 10.5C4.5 7 7.9 4.5 12 4.5s7.5 2.5 7.5 6z" class="fb"/><circle class="dt" cx="9.5" cy="7.6" r=".55"/><circle class="dt" cx="12.5" cy="6.6" r=".55"/><circle class="dt" cx="15" cy="8" r=".55"/><path d="M4 13.5h16"/><path d="M5 16.5h14v.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 17z" class="fb"/>',
+    double:'<path class="fb" d="M4.5 9.5C4.5 6 7.9 3.5 12 3.5s7.5 2.5 7.5 6z"/><path d="M4 12c1.3-1 2.7-1 4 0s2.7 1 4 0 2.7-1 4 0 2.7 1 4 0"/><path d="M4 15c1.3-1 2.7-1 4 0s2.7 1 4 0 2.7-1 4 0 2.7 1 4 0"/><path class="fb" d="M5 17.5h14v.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 18z"/>',
+    rings:'<circle class="fb" cx="9" cy="12" r="5"/><circle cx="9" cy="12" r="2.2"/><circle class="fb" cx="15.5" cy="12" r="5"/><circle cx="15.5" cy="12" r="2.2"/>',
+    slaw:'<path class="fb" d="M4 11h16a8 7 0 0 1-16 0z"/><path d="M8 11c.5-2 2-3 4-3s3.5 1 4 3"/><path d="M9.5 9.5l1-1.5M14 9.5l-.8-1.6"/>',
+    juice:'<path d="M13 6.5 14.5 3H17"/><path class="fb" d="M7 6.5h10l-1.4 13.5H8.4z"/><path d="M7.6 11.5h8.8"/><circle cx="12" cy="15.5" r="1.7"/>',
+    water:'<path class="fb" d="M9.5 3.5h5v2.5l1.5 2v12a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-12l1.5-2z"/><path d="M8 12h8M8 16h8"/>',
+    icecream:'<path class="fb" d="M7.5 11h9L12 21z"/><path class="fb" d="M7 11a5 5 0 0 1 10 0z"/><path d="M9.6 14.2l3.6 2.6M14.4 14.2l-3 2.2"/>',
+    cookie:'<circle class="fb" cx="12" cy="12" r="8"/><circle class="dt" cx="9" cy="10" r="1"/><circle class="dt" cx="14.5" cy="9" r="1"/><circle class="dt" cx="13.5" cy="14.5" r="1"/><circle class="dt" cx="8.8" cy="14.6" r="1"/>'
+  };
+  var STATUS_ICONS =
+    '<svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>'+
+    '<svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0z"/><path d="M3.3 6.7a6.6 6.6 0 0 1 9.4 0l-1.4 1.4a4.6 4.6 0 0 0-6.6 0z"/><path d="M1 4.4a9.9 9.9 0 0 1 14 0l-1.4 1.4a7.9 7.9 0 0 0-11.2 0z"/></svg>'+
+    '<svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="20" height="9" rx="2"/><path d="M25 4.5v4a2 2 0 0 0 0-4z" opacity=".4"/></svg>';
+  var CATS = [
+    {id:'all', name:'الكل'}, {id:'meals', name:'وجبات'}, {id:'sides', name:'أطباق جانبية'},
+    {id:'drinks', name:'مشروبات'}, {id:'sweets', name:'حلى'}
+  ];
+  // Whole-riyal prices. Nuggets is the only item priced exactly at the 10 SAR gap to free delivery.
+  // g = serving weight (ml for drinks, counted 1:1 as grams), kcal = calories. Typical values for illustration.
+  var MENU = [
+    {id:'burger',   cat:'meals',  name:'برجر كلاسيك',      meta:'لحم بقري، جبن شيدر، صوص خاص', price:25, g:250, kcal:550},
+    {id:'chicken',  cat:'meals',  name:'برجر دجاج مقرمش',  meta:'صدر دجاج، خس، مايونيز',       price:23, g:230, kcal:520},
+    {id:'double',   cat:'meals',  name:'دبل برجر',         meta:'شريحتا لحم وجبن مضاعف',       price:32, g:340, kcal:820},
+    {id:'nuggets',  cat:'sides',  name:'ناجتس 6 قطع',      meta:'مع صوص الباربكيو',            price:10, g:100, kcal:280},
+    {id:'fries',    cat:'sides',  name:'بطاطس مقلية',      meta:'حجم وسط',                     price:8,  g:115, kcal:330},
+    {id:'rings',    cat:'sides',  name:'حلقات بصل',        meta:'8 حلقات مقرمشة',              price:9,  g:110, kcal:360},
+    {id:'slaw',     cat:'sides',  name:'كول سلو',          meta:'علبة صغيرة',                  price:6,  g:100, kcal:150},
+    {id:'drink',    cat:'drinks', name:'مشروب غازي',       meta:'علبة',                        price:4,  g:330, kcal:140, ml:true},
+    {id:'juice',    cat:'drinks', name:'عصير برتقال',      meta:'طازج',                        price:7,  g:300, kcal:135, ml:true},
+    {id:'water',    cat:'drinks', name:'مياه',             meta:'قارورة',                      price:2,  g:330, kcal:0,   ml:true},
+    {id:'icecream', cat:'sweets', name:'آيس كريم فانيلا',  meta:'كوب وسط',                     price:7,  g:150, kcal:250},
+    {id:'cookie',   cat:'sweets', name:'كوكيز شوكولاتة',   meta:'قطعتان',                      price:5,  g:60,  kcal:290}
+  ];
+  var PRICE = {}; MENU.forEach(function(m){ PRICE[m.id] = m.price; });
+  function fresh(){ var c = {}; MENU.forEach(function(m){ c[m.id] = m.id==='burger' ? 1 : 0; }); return c; }
+  var state = {a:fresh(), b:fresh(), tab:{a:'all', b:'all'}};
+
+  var $ = function(id){ return document.getElementById(id); };
+  function r2(n){ return Math.round(n*100)/100; }
+  function money(n){ return r2(n).toFixed(2); }
+  function N(s){ return '<span class="num">'+s+'</span>'; }
+  function sar(n){ return N(money(n))+' ر.س'; }
+
+  function sub(c){ return MENU.reduce(function(s,m){ return s + m.price*c[m.id]; }, 0); }
+  // Share of the delivery fee waived: grows with the order value and reaches 100% at the threshold.
+  function discount(s){ return Math.min(1, Math.max(0, s/THRESHOLD)); }
+  var fee = {
+    a:function(s){ return s<=0 ? 0 : (s>=THRESHOLD ? 0 : FLAT_FEE); },
+    b:function(s){ return s<=0 ? 0 : r2(FLAT_FEE*(1-discount(s))); }
+  };
+  function total(app,c){ var s = sub(c); return r2(s + fee[app](s)); }
+  function extra(c){ return r2(sub(c) - (c.burger>0 ? PRICE.burger : 0)); }
+  // Weight and calories of the whole basket, or only of what goes beyond the one burger the customer wanted.
+  function sumOf(c, key, extraOnly){
+    return MENU.reduce(function(s,m){
+      var q = c[m.id] - (extraOnly && m.id==='burger' ? Math.min(1, c[m.id]) : 0);
+      return s + m[key]*q;
+    }, 0);
+  }
+  function fmtInt(n){ return N(Math.round(n).toLocaleString('en-US')); }
+  function plus(c,id){ var o = Object.assign({}, c); o[id]++; return o; }
+  function addCost(app,c,id){ return r2(total(app,plus(c,id)) - total(app,c)); }
+
+  // Cheapest basket that still contains the burger; ties go to the basket with more food, then fewer items.
+  // byExtra[e] = the fewest-item set of add-ons (up to 3 of each) costing exactly e riyals.
+  function cheapest(app){
+    var CAP = 60, byExtra = [{k:0, c:{}}];
+    MENU.forEach(function(m){
+      if (m.id==='burger') return;
+      var next = byExtra.slice();
+      byExtra.forEach(function(b, e){
+        if (!b) return;
+        for (var q=1; q<=3; q++){
+          var e2 = e + q*m.price; if (e2 > CAP) break;
+          if (!next[e2] || b.k+q < next[e2].k){
+            var c = Object.assign({}, b.c); c[m.id] = q;
+            next[e2] = {k:b.k+q, c:c};
+          }
+        }
+      });
+      byExtra = next;
+    });
+    var pick = null;
+    byExtra.forEach(function(b, e){
+      if (!b) return;
+      var s = PRICE.burger + e, t = r2(s + fee[app](s));
+      if (!pick || t < pick.t-1e-9 || (Math.abs(t-pick.t)<1e-9 && (s>pick.s || (s===pick.s && b.k<pick.k)))) pick = {t:t, s:s, k:b.k, c:b.c};
+    });
+    return Object.assign(fresh(), pick.c);
+  }
+  function shortName(m){ return m.name.replace(/ \d.*$/,''); }
+  function describe(c){
+    return MENU.filter(function(m){ return c[m.id]>0; }).map(function(m){
+      return (c[m.id]>1 ? c[m.id]+'× ' : '') + shortName(m);
+    }).join(' + ');
+  }
+  function extrasText(c){
+    var items = MENU.filter(function(m){ return m.id==='burger' ? c.burger>1 : c[m.id]>0; }).map(shortName);
+    return items.length ? items.join(' + ')+': '+fmtInt(sumOf(c,'g',true))+' غ، '+fmtInt(sumOf(c,'kcal',true))+' سعرة' : 'لا شيء';
+  }
+
+  function buildPhone(app){
+    var root = $('menu-'+app).closest('.screen');
+    root.querySelector('.status-icons').innerHTML = STATUS_ICONS;
+    root.querySelector('.cover-art').innerHTML = ICONS.burger;
+    var tabs = root.querySelector('.app-tabs');
+    tabs.innerHTML = CATS.map(function(t){
+      return '<button type="button" data-cat="'+t.id+'" aria-pressed="false">'+t.name+'</button>';
+    }).join('');
+    tabs.addEventListener('click', function(e){
+      var b = e.target.closest('button[data-cat]'); if (!b) return;
+      state.tab[app] = b.dataset.cat;
+      renderMenu(app);
+      // If the cover is already scrolled away, start the filtered list right under the sticky tabs.
+      if (sc.scrollTop > tabs.offsetTop) sc.scrollTop = tabs.offsetTop;
+      syncHint();
+    });
+    // The "scroll for the menu" chip fades once the viewer scrolls, or when there is nothing to scroll.
+    var sc = root.querySelector('.app-scroll');
+    function syncHint(){ root.classList.toggle('scrolled', sc.scrollTop > 30 || sc.scrollHeight <= sc.clientHeight + 4); }
+    sc.addEventListener('scroll', syncHint, {passive:true});
+    window.addEventListener('resize', syncHint);
+    setTimeout(syncHint, 0);
+    var ul = $('menu-'+app);
+    MENU.forEach(function(m){
+      var li = document.createElement('li');
+      li.className = 'item'; li.dataset.id = m.id; li.dataset.cat = m.cat;
+      li.innerHTML =
+        '<span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">'+ICONS[m.id]+'</svg></span>'+
+        '<span class="item-name">'+m.name+'</span>'+
+        '<span class="price">'+N(m.price)+' ر.س</span>'+
+        '<span class="item-meta">'+m.meta+'</span>'+
+        '<span class="facts"><span class="f">'+N(m.g)+(m.ml?' مل':' غ')+'</span><span class="f">'+N(m.kcal)+' سعرة</span></span>'+
+        '<span class="stepper">'+
+          '<button type="button" class="step" data-d="-1" aria-label="إزالة '+m.name+'">−</button>'+
+          '<output class="qty">0</output>'+
+          '<button type="button" class="step" data-d="1" aria-label="إضافة '+m.name+'">+</button>'+
+        '</span>';
+      ul.appendChild(li);
+    });
+    ul.addEventListener('click', function(e){
+      var btn = e.target.closest('button.step'); if (!btn) return;
+      var id = btn.closest('.item').dataset.id;
+      var q = state[app][id] + Number(btn.dataset.d);
+      state[app][id] = Math.max(0, Math.min(9, q));
+      update();
+    });
+  }
+
+  function renderMenu(app){
+    var c = state[app], cat = state.tab[app];
+    $('menu-'+app).closest('.screen').querySelectorAll('.app-tabs button').forEach(function(b){
+      var on = b.dataset.cat===cat;
+      b.classList.toggle('on', on); b.setAttribute('aria-pressed', on);
+    });
+    $('menu-'+app).querySelectorAll('.item').forEach(function(li){
+      var id = li.dataset.id, q = c[id];
+      li.hidden = cat!=='all' && li.dataset.cat!==cat;
+      li.classList.toggle('in', q>0);
+      li.querySelector('.qty').textContent = q;
+      li.querySelector('[data-d="-1"]').disabled = q===0;
+      li.querySelector('[data-d="1"]').disabled = q>=9;
+    });
+  }
+
+  function renderCheckout(app){
+    var c = state[app], s = sub(c), f = fee[app](s), t = r2(s+f);
+    var pct = Math.min(100, s/THRESHOLD*100);
+    var nudge, feeCell;
+    if (s===0){
+      nudge = '<div class="nudge">السلة فارغة<div class="bar"><span style="width:0"></span></div></div>';
+    } else if (app==='a'){
+      nudge = s<THRESHOLD
+        ? '<div class="nudge hot">أضف <b>'+sar(THRESHOLD-s)+'</b> واحصل على توصيل مجاني<div class="bar"><span style="width:'+pct+'%"></span></div></div>'
+        : '<div class="nudge ok">حصلت على توصيل مجاني<div class="bar"><span style="width:100%"></span></div></div>';
+    } else {
+      nudge = s<THRESHOLD
+        ? '<div class="nudge ok">خصمك على التوصيل <b>'+N(Math.round(discount(s)*100)+'%')+'</b>، ويزيد شوي مع كل ريال تضيفه<div class="bar"><span style="width:'+pct+'%"></span></div></div>'
+        : '<div class="nudge ok">خصمك على التوصيل <b>'+N('100%')+'</b>، التوصيل مجاني<div class="bar"><span style="width:100%"></span></div></div>';
+    }
+    if (s>0 && f<FLAT_FEE) feeCell = '<s>'+N(money(FLAT_FEE))+'</s>' + (f===0 ? '<span class="free">مجاني</span>' : N(money(f)));
+    else feeCell = N(money(f));
+    $('checkout-'+app).innerHTML = nudge +
+      '<dl class="lines"><div><dt>المجموع الفرعي</dt><dd>'+N(money(s))+'</dd></div>'+
+      '<div><dt>رسوم التوصيل</dt><dd>'+feeCell+'</dd></div>'+
+      '<div class="nut"><dt>وزن الطلب والسعرات</dt><dd>'+fmtInt(sumOf(c,'g'))+' غ · '+fmtInt(sumOf(c,'kcal'))+' سعرة</dd></div></dl>'+
+      '<div class="paybtn"><span>إتمام الطلب</span><strong>'+sar(t)+'</strong></div>';
+  }
+
+  function renderReadout(app){
+    var c = state[app], s = sub(c), t = total(app,c), ac = addCost(app,c,'nuggets'), ex = extra(c);
+    var acHtml = ac<=0
+      ? '<span class="stat-v bad-t">'+N(money(Math.abs(ac)))+' <small>ر.س</small></span><span class="stat-k">'+(ac<0?'توفّر عليك':'مجانًا فعليًا')+'</span>'
+      : '<span class="stat-v good-t">'+N(money(ac))+' <small>ر.س</small></span><span class="stat-k">'+(ac<PRICE.nuggets?'أقل من سعرها بسبب خصم التوصيل':'ثمنها الكامل')+'</span>';
+    var exHtml = ex>0
+      ? '<span class="stat-v bad-t">'+fmtInt(sumOf(c,'g',true))+' <small>غ</small></span><span class="stat-k">'+fmtInt(sumOf(c,'kcal',true))+' سعرة زائدة، بقيمة '+sar(ex)+'</span>'
+      : '<span class="stat-v good-t">لا يوجد</span><span class="stat-k">الطلب على قدر الحاجة</span>';
+
+    var cls, msg;
+    if (c.burger===0){ cls='info'; msg='أضف البرجر لتعود إلى المثال. الزبون هنا يريد برجرًا واحدًا.'; }
+    else if (app==='a'){
+      if (s<THRESHOLD){ cls='bad'; msg='إجماليك الآن '+sar(t)+'. لو أضفت أكلًا بقيمة '+sar(THRESHOLD-s)+' يصبح '+sar(THRESHOLD)+' فقط. التطبيق يكافئك على طلب أكثر.'; }
+      else if (ex>0){ cls='bad'; msg='حصلت على توصيل مجاني، لكن معك أكل زائد بقيمة '+sar(ex)+' لم تكن تحتاجه.'; }
+      else { cls='info'; msg='حصلت على توصيل مجاني.'; }
+    } else {
+      if (ex>0){ cls='info'; msg='الإضافات خفّضت التوصيل، لكنها رفعت إجماليك '+sar(t-total('b',fresh()))+' مقارنة بالبرجر وحده. الخصم دائمًا أقل من سعر الصنف.'; }
+      else { cls='good'; msg='طلبك وحده أخذ خصم '+N(Math.round(discount(s)*100)+'%')+' على التوصيل، فتدفع '+sar(fee.b(s))+' بدل '+sar(FLAT_FEE)+'. لا يوجد سبب لإضافة شيء.'; }
+    }
+    $('readout-'+app).innerHTML =
+      '<div class="stat"><span class="stat-k">إضافة ناجتس الآن تكلفك</span>'+acHtml+'</div>'+
+      '<div class="stat"><span class="stat-k">أكل زائد في السلة</span>'+exHtml+'</div>'+
+      '<p class="verdict '+cls+'">'+msg+'</p>';
+  }
+
+  function renderChart(){
+    var W=680, H=380, m={l:52,r:20,t:28,b:78}, X1=60, Y1=70;
+    function x(v){ return m.l + v/X1*(W-m.l-m.r); }
+    function y(v){ return H-m.b - v/Y1*(H-m.t-m.b); }
+    function tb(s){ return s + fee.b(s); }
+    var g = '', v;
+    var z0 = THRESHOLD-FLAT_FEE, z1 = THRESHOLD;
+    g += '<rect class="zone" x="'+x(z0)+'" y="'+y(Y1)+'" width="'+(x(z1)-x(z0))+'" height="'+(y(0)-y(Y1))+'"/>';
+    for (v=0; v<=Y1; v+=10){
+      g += '<line class="grid" x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+y(v)+'" y2="'+y(v)+'"/>';
+      g += '<text class="tick" x="'+(m.l-10)+'" y="'+(y(v)+4)+'" text-anchor="end">'+v+'</text>';
+    }
+    for (v=0; v<=X1; v+=10) g += '<text class="tick" x="'+x(v)+'" y="'+(H-m.b+20)+'" text-anchor="middle">'+v+'</text>';
+    g += '<line class="axis" x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+y(0)+'" y2="'+y(0)+'"/>';
+    g += '<line class="zone-edge" x1="'+x(z0)+'" x2="'+x(z0)+'" y1="'+y(Y1)+'" y2="'+y(0)+'"/>';
+    g += '<line class="zone-edge" x1="'+x(z1)+'" x2="'+x(z1)+'" y1="'+y(Y1)+'" y2="'+y(0)+'"/>';
+    g += '<text class="zone-label" x="'+((x(z0)+x(z1))/2)+'" y="'+(y(Y1)+18)+'" text-anchor="middle">منطقة الهدر</text>';
+    g += '<text class="guide-label" x="'+x(z0)+'" y="'+(H-m.b+40)+'" text-anchor="middle">برجر</text>';
+    g += '<text class="guide-label" x="'+x(z1)+'" y="'+(H-m.b+40)+'" text-anchor="middle">برجر + ناجتس</text>';
+    g += '<text class="ttl" x="'+((m.l+W-m.r)/2)+'" y="'+(H-10)+'" text-anchor="middle">قيمة الأكل في السلة (ر.س)</text>';
+    g += '<text class="ttl" x="'+m.l+'" y="14" text-anchor="start">ما يدفعه الزبون (ر.س)</text>';
+    // our model: fee shrinks linearly, so the total keeps rising
+    g += '<path class="ln b" d="M'+x(1)+','+y(tb(1))+' L'+x(THRESHOLD)+','+y(THRESHOLD)+'"/>';
+    // current model: flat fee until the threshold, then a sudden drop
+    g += '<path class="ln a" d="M'+x(1)+','+y(1+FLAT_FEE)+' L'+x(THRESHOLD)+','+y(THRESHOLD+FLAT_FEE)+'"/>';
+    g += '<line class="drop" x1="'+x(THRESHOLD)+'" x2="'+x(THRESHOLD)+'" y1="'+y(THRESHOLD+FLAT_FEE)+'" y2="'+y(THRESHOLD)+'"/>';
+    // above the threshold both models deliver for free
+    g += '<path class="ln s" d="M'+x(THRESHOLD)+','+y(THRESHOLD)+' L'+x(X1)+','+y(X1)+'"/>';
+    g += '<text class="note" x="'+x(48)+'" y="'+(y(48)+26)+'" text-anchor="middle">التوصيل مجاني في الاثنين</text>';
+    g += '<circle class="dot open" cx="'+x(THRESHOLD)+'" cy="'+y(THRESHOLD+FLAT_FEE)+'" r="5"/>';
+    g += '<circle class="dot a" cx="'+x(z0)+'" cy="'+y(z0+FLAT_FEE)+'" r="5"/>';
+    g += '<circle class="dot b" cx="'+x(z0)+'" cy="'+y(tb(z0))+'" r="5"/>';
+    g += '<circle class="dot s" cx="'+x(z1)+'" cy="'+y(z1)+'" r="5"/>';
+    $('chart').innerHTML = g;
+  }
+
+  function renderSteps(){
+    $('steps').innerHTML = [10, 25, 30, 35].map(function(s){
+      var f = fee.b(s);
+      return '<div><small>طلب '+N(s)+' ر.س</small><b>'+(f===0 ? 'مجاني' : N(money(f))+' ر.س')+'</b></div>';
+    }).join('');
+  }
+
+  function renderTable(){
+    var one = fresh(), two = plus(fresh(),'nuggets');
+    ['a','b'].forEach(function(app){
+      var pick = cheapest(app);
+      $('t-'+app+'-0').innerHTML = sar(fee[app](sub(one)));
+      $('t-'+app+'-1').innerHTML = sar(total(app,one));
+      $('t-'+app+'-2').innerHTML = sar(total(app,two));
+      $('t-'+app+'-3').innerHTML = sar(addCost(app,one,'nuggets'));
+      $('t-'+app+'-4').textContent = describe(pick);
+      $('t-'+app+'-5').innerHTML = extrasText(pick);
+    });
+  }
+
+  function renderImpact(){
+    var orders = Number($('orders').value), share = Number($('share').value)/100, grams = Number($('grams').value);
+    $('orders-out').textContent = orders.toLocaleString('en-US');
+    $('share-out').textContent = Math.round(share*100)+'%';
+    $('grams-out').textContent = grams+' غ';
+    var added = orders*share;
+    var kgDay = added*grams/1000;
+    var tYear = kgDay*365/1000;
+    var sarYear = added*10*365;
+    $('r-day').innerHTML = N(Math.round(kgDay).toLocaleString('en-US'))+' كغ';
+    $('r-year').innerHTML = N(Math.round(tYear).toLocaleString('en-US'))+' طن';
+    $('r-sar').innerHTML = sarYear>=1e6 ? N((sarYear/1e6).toFixed(1))+' مليون ر.س' : N(Math.round(sarYear).toLocaleString('en-US'))+' ر.س';
+  }
+
+  function update(){
+    ['a','b'].forEach(function(app){ renderMenu(app); renderCheckout(app); renderReadout(app); });
+  }
+
+  // Show the full menu, scroll the phone to the first item that changed, then ring the changed items.
+  function flash(app, before){
+    state.tab[app] = 'all'; renderMenu(app);
+    var sc = $('menu-'+app).closest('.app-scroll'), first = null;
+    $('menu-'+app).querySelectorAll('.item').forEach(function(li){
+      if (before[li.dataset.id] !== state[app][li.dataset.id]){
+        first = first || li;
+        li.classList.remove('flash'); void li.offsetWidth; li.classList.add('flash');
+      }
+    });
+    var top = first ? first.offsetTop - sc.clientHeight/2 + first.offsetHeight/2 : 0;
+    sc.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
+  }
+
+  buildPhone('a'); buildPhone('b');
+  $('reset').addEventListener('click', function(){
+    var ba = state.a, bb = state.b;
+    state.a = fresh(); state.b = fresh(); update(); flash('a',ba); flash('b',bb);
+  });
+  $('smart').addEventListener('click', function(){
+    var ba = state.a, bb = state.b;
+    state.a = cheapest('a'); state.b = cheapest('b'); update(); flash('a',ba); flash('b',bb);
+  });
+  ['orders','share','grams'].forEach(function(id){ $(id).addEventListener('input', renderImpact); });
+
+  update(); renderChart(); renderSteps(); renderTable(); renderImpact();
+})();
+</script>
+</body>
+</html>
