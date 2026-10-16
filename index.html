@@ -51,6 +51,9 @@
   --fs-h2:clamp(1.55rem,3vw,2.2rem);
   --fs-body:1.0625rem;
   --fs-small:.875rem;
+  --sim-h:62px;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
 }
 
 *{box-sizing:border-box}
@@ -327,6 +330,28 @@ footer{padding-block:28px 40px;border-top:1px solid var(--line);font-size:var(--
   .status{padding-inline:26px}
   .island{width:104px;height:32px}
 }
+/* phone-size screens: the page becomes the app simulator, with a problem/solution switch on top */
+.sim-switch{display:none}
+@media (max-width:600px){
+  body{overflow:hidden}
+  .top,.hero,#why,#solution,#impact,#summary,footer,
+  #try .sec-head,#try .toolbar,.device-label,.readout,
+  .hw,.island,.status,.home{display:none!important}
+  #try{padding:0;border:0}
+  .phones{display:block}
+  .device{display:none}
+  [data-sim="a"] .device.is-a,[data-sim="b"] .device.is-b{display:flex}
+  .sim-switch{display:flex;align-items:center;justify-content:center;gap:8px;height:var(--sim-h);padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line)}
+  .sim-switch button{flex:1;max-width:190px;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font:700 .95rem var(--f-body);cursor:pointer;transition:background .2s,color .2s}
+  .sim-switch svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .sim-switch button[data-sim="a"][aria-pressed="true"]{background:var(--coral);border-color:var(--coral);color:var(--on-mint)}
+  .sim-switch button[data-sim="b"][aria-pressed="true"]{background:linear-gradient(180deg,var(--mint-hi),var(--mint-2));border-color:transparent;color:var(--on-mint)}
+  .iphone{width:100%;height:calc(100vh - var(--sim-h) - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));height:calc(100dvh - var(--sim-h) - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));border-radius:0;padding:0;background:none;box-shadow:none}
+  .bezel{border-radius:0;padding:0;background:none}
+  .screen{border-radius:0}
+  .app-cover{margin-top:12px}
+  .cart{padding-bottom:16px;border-radius:22px 22px 0 0}
+}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{transition:none!important;animation:none!important}
 }
@@ -334,7 +359,7 @@ footer{padding-block:28px 40px;border-top:1px solid var(--line);font-size:var(--
 </head>
 <body>
 
-<div dir="rtl" lang="ar">
+<div dir="rtl" lang="ar" id="page" data-sim="a">
 
 <header class="top wrap">
   <a class="brand" href="#top" id="top">
@@ -389,6 +414,10 @@ footer{padding-block:28px 40px;border-top:1px solid var(--line);font-size:var(--
 </section>
 
 <section class="sec wrap" id="try">
+  <div class="sim-switch" role="group" aria-label="بدّل بين المشكلة والحل">
+    <button type="button" data-sim="a" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17.2v.1"/></svg>المشكلة</button>
+    <button type="button" data-sim="b" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>الحل</button>
+  </div>
   <div class="sec-head">
     <p class="eyebrow">جرّب بنفسك</p>
     <h2>نفس المطعم ونفس الأسعار ونفس حد الـ35 ريالًا</h2>
@@ -858,6 +887,25 @@ footer{padding-block:28px 40px;border-top:1px solid var(--line);font-size:var(--
   }
 
   buildPhone('a'); buildPhone('b');
+
+  // Phone-size simulator: one app at a time. Switching keeps the same order and scroll
+  // position, so only the delivery model changes.
+  var page = $('page');
+  document.querySelectorAll('.sim-switch button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var from = page.dataset.sim, to = btn.dataset.sim;
+      if (from === to) return;
+      state[to] = Object.assign({}, state[from]);
+      state.tab[to] = state.tab[from];
+      var top = $('menu-'+from).closest('.app-scroll').scrollTop;
+      page.dataset.sim = to;
+      document.querySelectorAll('.sim-switch button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.sim===to); });
+      update();
+      var sc = $('menu-'+to).closest('.app-scroll');
+      sc.scrollTop = top;
+      sc.dispatchEvent(new Event('scroll'));
+    });
+  });
   $('reset').addEventListener('click', function(){
     var ba = state.a, bb = state.b;
     state.a = fresh(); state.b = fresh(); update(); flash('a',ba); flash('b',bb);
