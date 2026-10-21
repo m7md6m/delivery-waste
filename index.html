@@ -523,9 +523,10 @@ a{color:inherit}
     <div class="sec-head">
       <p class="eyebrow">المحاكي</p>
       <h2>نفس المطعم ونفس الأسعار ونفس حد الـ35 ريالًا</h2>
-      <p>الزبون في هذا المثال يريد وجبة واحدة بـ25 ر.س. الوجبات الرئيسية هي الأساس، وأي طبق أو مشروب إضافي فوقها يدخل في نسبة الهدر. ضع نفس الطلب في الجوالين وقارن رسوم التوصيل، والعدّاد بجانب كل جوال يحسب نسبة الهدر في طلبك.</p>
+      <p>الزبون في هذا المثال يريد وجبة واحدة بـ25 ر.س. الوجبة الأولى هي الأساس، وأي شيء يُطلب فوقها، من طبق أو مشروب أو حتى وجبة ثانية، يدخل في نسبة الهدر. ضع نفس الطلب في الجوالين وقارن رسوم التوصيل، والعدّاد بجانب كل جوال يحسب نسبة الهدر في طلبك.</p>
       <div class="ratio-box">
         <p class="ratio-eq"><span>نسبة الهدر</span><span class="op">=</span><span>قيمة الإضافات ÷ قيمة الطلب × 100</span></p>
+        <p class="ratio-ex">الإضافات: كل ما فوق الوجبة الأولى.</p>
         <p class="ratio-ex">مثال: وجبة 25 ر.س، ثم طلب جانبي 7 ر.س ومياه 3 ر.س للوصول إلى التوصيل المجاني</p>
         <p class="ratio-math"><span dir="ltr">(7 + 3) ÷ 35 × 100 = <b>28.6%</b></span></p>
       </div>
@@ -737,9 +738,10 @@ a{color:inherit}
     {id:'drink',    cat:'drinks', name:'مشروب غازي إضافي',  meta:'علبة',                    price:5,  g:330, kcal:140, ml:true},
     {id:'juice',    cat:'drinks', name:'عصير برتقال',       meta:'طازج',                    price:6,  g:300, kcal:135, ml:true}
   ];
-  var PRICE = {}; MENU.forEach(function(m){ PRICE[m.id] = m.price; });
+  var PRICE = {}, ITEM = {}; MENU.forEach(function(m){ PRICE[m.id] = m.price; ITEM[m.id] = m; });
   function fresh(){ var c = {}; MENU.forEach(function(m){ c[m.id] = m.id==='burger' ? 1 : 0; }); return c; }
-  var state = {a:fresh(), b:fresh(), tab:{a:'all', b:'all'}};
+  // order[app] lists meal units in the order they were added; the first one is the base of the order.
+  var state = {a:fresh(), b:fresh(), tab:{a:'all', b:'all'}, order:{a:['burger'], b:['burger']}};
 
   var $ = function(id){ return document.getElementById(id); };
   function r2(n){ return Math.round(n*100)/100; }
@@ -760,8 +762,15 @@ a{color:inherit}
     return MENU.reduce(function(s,m){ return s + m[key]*c[m.id]; }, 0);
   }
   // Waste ratio = value of add-ons (anything that is not a meal) / value of the order, before delivery.
-  function wasteValue(c){ return MENU.reduce(function(s,m){ return s + (m.cat==='meals' ? 0 : m.price*c[m.id]); }, 0); }
-  function wasteRatio(c){ var s = sub(c); return s>0 ? wasteValue(c)/s : 0; }
+  // The base is the first meal still in the cart; without an order history, the first meal on the menu.
+  function baseOf(c, order){
+    for (var i = 0; order && i < order.length; i++) if (c[order[i]] > 0) return order[i];
+    var m = MENU.filter(function(m){ return m.cat==='meals' && c[m.id]>0; })[0];
+    return m ? m.id : null;
+  }
+  // Everything beyond one base meal is extra: add-ons, and any second meal too.
+  function wasteValue(c, order){ var b = baseOf(c, order); return r2(sub(c) - (b ? PRICE[b] : 0)); }
+  function wasteRatio(c, order){ var s = sub(c); return s>0 ? wasteValue(c, order)/s : 0; }
   function pctText(r){ var v = Math.round(r*1000)/10; return N((v%1===0 ? v.toFixed(0) : v.toFixed(1))+'%'); }
   function fmtInt(n){ return N(Math.round(n).toLocaleString('en-US')); }
   function plus(c,ids){ var o = Object.assign({}, c); [].concat(ids).forEach(function(id){ o[id]++; }); return o; }
@@ -846,8 +855,13 @@ a{color:inherit}
     ul.addEventListener('click', function(e){
       var btn = e.target.closest('button.step'); if (!btn) return;
       var id = btn.closest('.item').dataset.id;
-      var q = state[app][id] + Number(btn.dataset.d);
-      state[app][id] = Math.max(0, Math.min(9, q));
+      var before = state[app][id], q = Math.max(0, Math.min(9, before + Number(btn.dataset.d)));
+      state[app][id] = q;
+      if (ITEM[id].cat === 'meals'){
+        var ord = state.order[app];
+        if (q > before) ord.push(id);
+        else if (q < before){ var k = ord.lastIndexOf(id); if (k >= 0) ord.splice(k, 1); }
+      }
       update();
     });
   }
@@ -893,20 +907,20 @@ a{color:inherit}
   }
 
   function renderReadout(app){
-    var c = state[app], s = sub(c), t = total(app,c), ac = addCost(app,c,EXAMPLE_ADDONS), w = wasteRatio(c), wv = wasteValue(c);
+    var c = state[app], s = sub(c), t = total(app,c), ac = addCost(app,c,EXAMPLE_ADDONS), w = wasteRatio(c, state.order[app]), wv = wasteValue(c, state.order[app]);
     var acHtml = ac<=0
       ? '<span class="stat-v bad-t">'+N(money(Math.abs(ac)))+' <small>ر.س</small></span><span class="stat-k">'+(ac<0?'توفّر عليك':'مجانًا فعليًا')+'</span>'
       : '<span class="stat-v good-t">'+N(money(ac))+' <small>ر.س</small></span><span class="stat-k">'+(ac<EXAMPLE_VALUE?'أقل من سعرها بسبب خصم التوصيل':'ثمنها الكامل')+'</span>';
     var exHtml = w>0
       ? '<span class="stat-v bad-t">'+pctText(w)+'</span><span class="stat-k">إضافات بـ'+sar(wv)+' من '+sar(s)+'</span>'
-      : '<span class="stat-v good-t">'+N('0%')+'</span><span class="stat-k">'+(s>0 ? 'طلبك وجبات رئيسية فقط' : 'السلة فارغة')+'</span>';
+      : '<span class="stat-v good-t">'+N('0%')+'</span><span class="stat-k">'+(s>0 ? 'طلبك وجبة واحدة فقط' : 'السلة فارغة')+'</span>';
 
     var cls, msg;
     if (s===0){ cls='info'; msg='السلة فارغة. أضف وجبتك لتبدأ.'; }
     else if (app==='a'){
       if (s<THRESHOLD){ cls='bad'; msg='إجماليك الآن '+sar(t)+'. لو أضفت أكلًا بقيمة '+sar(THRESHOLD-s)+' يصبح '+sar(THRESHOLD)+' فقط. التطبيق يكافئك على طلب أكثر.'; }
       else if (w>0){ cls='bad'; msg='حصلت على توصيل مجاني، لكن '+pctText(w)+' من طلبك إضافات لم تكن تحتاجها.'; }
-      else { cls='info'; msg='حصلت على توصيل مجاني، وطلبك وجبات رئيسية فقط.'; }
+      else { cls='info'; msg='حصلت على توصيل مجاني، وطلبك وجبة واحدة فقط.'; }
     } else {
       if (w>0){ cls='info'; msg='نسبة الهدر في طلبك '+pctText(w)+'. في حلّنا كل إضافة ترفع الفاتورة، فلا شيء يدفعك لها.'; }
       else { cls='good'; msg='طلبك أخذ خصم '+N(Math.round(discount(s)*100)+'%')+' على التوصيل، فتدفع '+sar(fee.b(s))+' بدل '+sar(FLAT_FEE)+'، ونسبة الهدر '+N('0%')+'.'; }
@@ -925,14 +939,14 @@ a{color:inherit}
       '<div class="cal-qty"><span class="cal-qk">كمية الهدر</span><span class="cal-g"></span><span class="cal-ml"></span></div>';
   }
   // Amount of add-ons: food in grams, drinks in millilitres.
-  function wasteAmount(c){
-    var a = {g:0, ml:0};
-    MENU.forEach(function(m){ if (m.cat!=='meals') a[m.ml ? 'ml' : 'g'] += m.g*c[m.id]; });
+  function wasteAmount(c, order){
+    var b = baseOf(c, order), a = {g:0, ml:0};
+    MENU.forEach(function(m){ var q = c[m.id] - (m.id===b ? 1 : 0); if (q > 0) a[m.ml ? 'ml' : 'g'] += m.g*q; });
     return a;
   }
   // The tube fills to the waste ratio; meals leave it empty.
   function renderCal(app){
-    var el = $('cal-'+app), c = state[app], s = sub(c), wv = wasteValue(c), w = wasteRatio(c), a = wasteAmount(c);
+    var el = $('cal-'+app), c = state[app], o = state.order[app], s = sub(c), wv = wasteValue(c, o), w = wasteRatio(c, o), a = wasteAmount(c, o);
     el.classList.toggle('has-waste', wv>0);
     el.setAttribute('aria-label', 'نسبة الهدر '+Math.round(w*1000)/10+'%: إضافات بقيمة '+money(wv)+' ر.س من '+money(s)+' ر.س، '+a.g+' غ و'+a.ml+' مل');
     el.querySelector('.cal-v').innerHTML = pctText(w);
@@ -1045,6 +1059,7 @@ a{color:inherit}
       var from = page.dataset.sim, to = btn.dataset.sim;
       if (from === to) return;
       state[to] = Object.assign({}, state[from]);
+      state.order[to] = state.order[from].slice();
       state.tab[to] = state.tab[from];
       var top = $('menu-'+from).closest('.app-scroll').scrollTop;
       page.dataset.sim = to;
@@ -1057,11 +1072,11 @@ a{color:inherit}
   });
   $('reset').addEventListener('click', function(){
     var ba = state.a, bb = state.b;
-    state.a = fresh(); state.b = fresh(); update(); flash('a',ba); flash('b',bb);
+    state.a = fresh(); state.b = fresh(); state.order = {a:['burger'], b:['burger']}; update(); flash('a',ba); flash('b',bb);
   });
   $('smart').addEventListener('click', function(){
     var ba = state.a, bb = state.b;
-    state.a = cheapest('a'); state.b = cheapest('b'); update(); flash('a',ba); flash('b',bb);
+    state.a = cheapest('a'); state.b = cheapest('b'); state.order = {a:['burger'], b:['burger']}; update(); flash('a',ba); flash('b',bb);
   });
   ['orders','share','grams'].forEach(function(id){ $(id).addEventListener('input', renderImpact); });
 
