@@ -695,9 +695,9 @@ a{color:inherit}
   // Whole-riyal prices. Nuggets is the only item priced exactly at the 10 SAR gap to free delivery.
   // g = serving weight (ml for drinks, counted 1:1 as grams), kcal = calories. Typical values for illustration.
   var MENU = [
-    {id:'burger',   cat:'meals',  name:'برجر كلاسيك',      meta:'لحم بقري، جبن شيدر، صوص خاص', price:25, g:250, kcal:550},
-    {id:'chicken',  cat:'meals',  name:'برجر دجاج مقرمش',  meta:'صدر دجاج، خس، مايونيز',       price:23, g:230, kcal:520},
-    {id:'double',   cat:'meals',  name:'دبل برجر',         meta:'شريحتا لحم وجبن مضاعف',       price:32, g:340, kcal:820},
+    {id:'burger',   cat:'meals',  name:'برجر كلاسيك',      meta:'لحم بقري، جبن شيدر، صوص خاص', price:25, g:250, kcal:700},
+    {id:'chicken',  cat:'meals',  name:'برجر دجاج مقرمش',  meta:'صدر دجاج، خس، مايونيز',       price:23, g:230, kcal:640},
+    {id:'double',   cat:'meals',  name:'دبل برجر',         meta:'شريحتا لحم وجبن مضاعف',       price:32, g:340, kcal:980},
     {id:'nuggets',  cat:'sides',  name:'ناجتس 6 قطع',      meta:'مع صوص الباربكيو',            price:10, g:100, kcal:280},
     {id:'fries',    cat:'sides',  name:'بطاطس مقلية',      meta:'حجم وسط',                     price:8,  g:115, kcal:330},
     {id:'rings',    cat:'sides',  name:'حلقات بصل',        meta:'8 حلقات مقرمشة',              price:9,  g:110, kcal:360},
@@ -889,7 +889,7 @@ a{color:inherit}
       '<div class="cal-head"><b class="cal-v"></b><span class="cal-k">سعرة</span></div>'+
       '<div class="cal-track"><div class="cal-fill cal-ok"></div><div class="cal-fill cal-over"></div>'+
       '<div class="cal-meal" title="متوسط الوجبة الواحدة"><span>'+MEAL_KCAL+'</span></div></div>'+
-      '<div class="cal-foot"><b></b><span></span></div>';
+      '<div class="cal-foot"><b></b><span class="cal-note"></span></div>';
   }
   function renderCal(app){
     var el = $('cal-'+app), k = sumOf(state[app],'kcal'), over = Math.max(0, k - MEAL_KCAL);
@@ -906,7 +906,7 @@ a{color:inherit}
     var foot = el.querySelector('.cal-foot');
     foot.className = 'cal-foot ' + (over>0 ? 'over' : 'ok');
     foot.querySelector('b').innerHTML = N((over>0 ? '+' : '') + Math.round(over).toLocaleString('en-US'));
-    foot.querySelector('span').textContent = over>0 ? 'سعرة زائدة' : 'ضمن الوجبة';
+    foot.querySelector('.cal-note').textContent = over>0 ? 'سعرة زائدة' : 'ضمن الوجبة';
   }
 
   function renderChart(){
