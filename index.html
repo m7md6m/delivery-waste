@@ -257,7 +257,7 @@ a{color:inherit}
 .is-b .paybtn{background:var(--app-mint)}
 .paybtn strong{font-family:var(--f-display);font-size:1.15rem}
 
-/* waste meter beside each phone: a measuring tube that stays empty for meals and fills with add-ons */
+/* waste meter beside each phone: a measuring tube filled to the order's weight, green up to 460 g (the mid mark) and orange above */
 .phone-row{display:flex;align-items:stretch;justify-content:center;gap:14px;width:100%;max-width:458px;margin-inline:auto}
 .phone-row .iphone{flex:0 1 380px;min-width:0;margin-inline:0}
 .is-a .cal{order:-1}
@@ -272,11 +272,18 @@ a{color:inherit}
   background:linear-gradient(to top,transparent calc(25% - 1px),var(--line) calc(25% - 1px) 25%,transparent 25% calc(50% - 1px),var(--line) calc(50% - 1px) 50%,transparent 50% calc(75% - 1px),var(--line) calc(75% - 1px) 75%,transparent 75%)}
 /* glass sheen */
 .cal-track::before{content:"";position:absolute;top:8px;bottom:8px;inset-inline-start:6px;width:4px;border-radius:2px;z-index:3;background:linear-gradient(rgb(255 255 255 / .6),rgb(255 255 255 / .08))}
-.cal-liquid{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(to top,var(--orange),var(--orange-hi));transition:height .9s cubic-bezier(.34,1.5,.6,1)}
+/* --cut: where the 460 g portion ends inside the liquid; green below it, orange above.
+   Registered so it eases together with the height and the boundary stays near the mark. */
+@property --cut{syntax:"<percentage>";inherits:false;initial-value:100%}
+.cal-liquid{--cut:100%;--wave:var(--green-hi);--wave-back:var(--green);position:absolute;left:0;right:0;bottom:0;height:0;
+  background:linear-gradient(to top,var(--green) 0,var(--green-hi) var(--cut),var(--orange) var(--cut),var(--orange-hi) 100%);
+  transition:height .9s cubic-bezier(.34,1.5,.6,1),--cut .9s cubic-bezier(.34,1.5,.6,1)}
+.cal-liquid.over{--wave:var(--orange-hi);--wave-back:var(--orange)}
+.cal-mark{position:absolute;left:0;right:0;bottom:50%;z-index:2;border-top:2px dashed var(--ink);opacity:.45}
 .cal-liquid::before,.cal-liquid::after{content:"";position:absolute;left:0;right:0;bottom:100%;height:10px;
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='10' viewBox='0 0 32 10'%3E%3Cpath d='M0 5 Q8 0 16 5 T32 5 V10 H0Z'/%3E%3C/svg%3E") repeat-x 0 0/32px 10px;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='10' viewBox='0 0 32 10'%3E%3Cpath d='M0 5 Q8 0 16 5 T32 5 V10 H0Z'/%3E%3C/svg%3E") repeat-x 0 0/32px 10px;transition:opacity .3s}
-.cal-liquid::before{background:var(--orange);opacity:.45;bottom:calc(100% - 3px);animation:wave-back 3.2s linear infinite}
-.cal-liquid::after{background:var(--orange-hi);animation:wave-front 1.9s linear infinite}
+.cal-liquid::before{background:var(--wave-back);opacity:.45;bottom:calc(100% - 3px);animation:wave-back 3.2s linear infinite}
+.cal-liquid::after{background:var(--wave);animation:wave-front 1.9s linear infinite}
 .cal-liquid.empty::before,.cal-liquid.empty::after{opacity:0}
 .cal-bubbles{position:absolute;inset:0;
   background:radial-gradient(circle at 30% 70%,rgb(255 255 255 / .55) 0 1.6px,transparent 2.4px),radial-gradient(circle at 68% 30%,rgb(255 255 255 / .45) 0 1.2px,transparent 2px);
@@ -926,7 +933,7 @@ a{color:inherit}
   function buildCal(app){
     $('cal-'+app).innerHTML =
       '<div class="cal-head"><b class="cal-v"></b><span class="cal-k">نسبة الهدر</span></div>'+
-      '<div class="cal-track"><div class="cal-liquid empty"><span class="cal-bubbles"></span></div></div>'+
+      '<div class="cal-track"><div class="cal-liquid empty"><span class="cal-bubbles"></span></div><span class="cal-mark"></span></div>'+
       '<div class="cal-foot"><b></b><span class="cal-note"></span></div>'+
       '<div class="cal-qty"><span class="cal-qk">كمية الهدر</span><span class="cal-g"></span><span class="cal-ml"></span></div>';
   }
@@ -936,15 +943,18 @@ a{color:inherit}
     MENU.forEach(function(m){ if (m.ml) drink += m.g*c[m.id]; else food += m.g*c[m.id]; });
     return {g:Math.max(0, food-PORTION_G), ml:Math.max(0, drink-Math.max(0, PORTION_G-food))};
   }
-  // The tube fills to the waste ratio; an order within the portion leaves it empty.
+  // The tube fills with the order's weight on a 0..2×PORTION_G scale, so the 460 g mark is halfway.
+  function fillOf(wt){ return {h:Math.min(100, wt/(PORTION_G*2)*100), cut:wt>0 ? Math.min(100, PORTION_G/wt*100) : 100}; }
   function renderCal(app){
-    var el = $('cal-'+app), c = state[app], wt = sumOf(c,'g'), ov = overWeight(c), w = wasteRatio(c), a = wasteAmount(c);
+    var el = $('cal-'+app), c = state[app], wt = sumOf(c,'g'), ov = overWeight(c), w = wasteRatio(c), a = wasteAmount(c), f = fillOf(wt);
     el.classList.toggle('has-waste', ov>0);
     el.setAttribute('aria-label', 'نسبة الهدر '+Math.round(w*1000)/10+'%: وزن الطلب '+wt+' غ، منها '+ov+' غ فوق حد '+PORTION_G+' غ ('+a.g+' غ أكل و'+a.ml+' مل مشروبات)');
     el.querySelector('.cal-v').innerHTML = pctText(w);
     var liq = el.querySelector('.cal-liquid');
-    liq.style.height = (w*100).toFixed(2)+'%';
-    liq.classList.toggle('empty', w<=0);
+    liq.style.height = f.h.toFixed(2)+'%';
+    liq.style.setProperty('--cut', f.cut.toFixed(2)+'%');
+    liq.classList.toggle('over', ov>0);
+    liq.classList.toggle('empty', wt<=0);
     var foot = el.querySelector('.cal-foot');
     foot.className = 'cal-foot ' + (ov>0 ? 'over' : 'ok');
     foot.querySelector('b').innerHTML = fmtInt(wt)+' غ';
