@@ -148,6 +148,14 @@ a{color:inherit}
 /* try: header with QR, toolbar, phones */
 .try-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 40px;margin-bottom:clamp(24px,4vw,36px)}
 .try-head .sec-head{flex:1 1 420px;margin-bottom:0}
+.try-head .sec-head > p:not(.eyebrow){color:var(--muted)}
+.ratio-box{display:grid;gap:6px;max-width:44em;margin-top:6px;padding:12px 16px;border-radius:14px;background:var(--orange-soft);border:1px solid var(--orange-line)}
+.ratio-eq{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;font:700 1.05rem var(--f-display);color:var(--ink)}
+.ratio-eq .op{color:var(--muted)}
+.ratio-ex{font-size:.9rem;line-height:1.7;color:var(--muted)}
+.sec-head .ratio-box .ratio-math{font:700 1.05rem var(--f-num);color:var(--ink)}
+.ratio-math span{display:inline-block;white-space:nowrap;unicode-bidi:isolate}
+.ratio-math b{color:var(--orange-ink)}
 .try-qr{flex:none;display:flex;align-items:center;gap:18px;max-width:440px;padding:14px;border:1px solid var(--green-line);border-radius:22px;background:var(--green-soft)}
 .qr{flex:none;width:132px;height:132px;border-radius:14px;display:block}
 .qr-bg{fill:var(--paper)}
@@ -462,9 +470,9 @@ a{color:inherit}
   <div class="receipts" aria-label="مقارنة بين فاتورتين لهما نفس الإجمالي">
     <div class="rc-wrap">
       <figure class="receipt">
-        <div class="rc-head"><strong>مطعم افتراضي</strong><span>الخيار الأول · الطبق الرئيسي فقط</span></div>
+        <div class="rc-head"><strong>مطعم افتراضي</strong><span>الخيار الأول · الوجبة فقط</span></div>
         <dl class="rc-lines">
-          <div><dt>طبق رئيسي</dt><dd>25.00</dd></div>
+          <div><dt>وجبة</dt><dd>25.00</dd></div>
           <div><dt>رسوم التوصيل</dt><dd>10.00</dd></div>
         </dl>
         <div class="rc-total"><span>الإجمالي</span><span>35.00 ر.س</span></div>
@@ -472,17 +480,18 @@ a{color:inherit}
     </div>
     <div class="rc-wrap">
       <figure class="receipt">
-        <div class="rc-head"><strong>مطعم افتراضي</strong><span>الخيار الثاني · مع طلب جانبي</span></div>
+        <div class="rc-head"><strong>مطعم افتراضي</strong><span>الخيار الثاني · مع إضافات</span></div>
         <dl class="rc-lines">
-          <div><dt>طبق رئيسي</dt><dd>25.00</dd></div>
-          <div class="extra"><dt>طلب جانبي إضافي</dt><dd>10.00</dd></div>
+          <div><dt>وجبة</dt><dd>25.00</dd></div>
+          <div class="extra"><dt>طلب جانبي</dt><dd>7.00</dd></div>
+          <div class="extra"><dt>مياه</dt><dd>3.00</dd></div>
           <div><dt>رسوم التوصيل</dt><dd><s>10.00</s> 0.00</dd></div>
         </dl>
         <div class="rc-total"><span>الإجمالي</span><span>35.00 ر.س</span></div>
         <span class="stamp">نفس الإجمالي</span>
       </figure>
     </div>
-    <p class="rc-caption">المبلغ واحد في الحالتين، فمن الطبيعي أن يختار الزبون الفاتورة الثانية. الطلب الجانبي يبدو مجانيًا حتى لو لم يكن الزبون بحاجة إليه.</p>
+    <p class="rc-caption">المبلغ واحد في الحالتين، فمن الطبيعي أن يختار الزبون الفاتورة الثانية. الإضافات تبدو مجانية حتى لو لم يكن الزبون بحاجة إليها.</p>
   </div>
 </section>
 
@@ -496,7 +505,12 @@ a{color:inherit}
     <div class="sec-head">
       <p class="eyebrow">المحاكي</p>
       <h2>نفس المطعم ونفس الأسعار ونفس حد الـ35 ريالًا</h2>
-      <p>الزبون في هذا المثال يريد طبقًا رئيسيًا واحدًا فقط بـ25 ر.س. ضع نفس الطلب في الجوالين وقارن رسوم التوصيل، ثم راقب كم يكلفك طلب جانبي إضافي بـ10 ر.س فعليًا في كل تطبيق. الشريط بجانب كل جوال يقيس سعرات الطلب، وما يتجاوز متوسط الوجبة الواحدة (700 سعرة تقريبًا) نعدّه أكلًا زائدًا.</p>
+      <p>الزبون في هذا المثال يريد وجبة واحدة بـ25 ر.س. الوجبات الرئيسية هي الأساس، وأي طبق أو مشروب إضافي فوقها يدخل في نسبة الهدر. ضع نفس الطلب في الجوالين وقارن رسوم التوصيل، والعدّاد بجانب كل جوال يحسب نسبة الهدر في طلبك.</p>
+      <div class="ratio-box">
+        <p class="ratio-eq"><span>نسبة الهدر</span><span class="op">=</span><span>قيمة الإضافات ÷ قيمة الطلب × 100</span></p>
+        <p class="ratio-ex">مثال: وجبة 25 ر.س، ثم طلب جانبي 7 ر.س ومياه 3 ر.س للوصول إلى التوصيل المجاني</p>
+        <p class="ratio-math"><span dir="ltr">(7 + 3) ÷ 35 × 100 = <b>28.6%</b></span></p>
+      </div>
     </div>
     <aside class="try-qr" aria-label="افتح المحاكي على جوالك">
       <svg class="qr" viewBox="-4 -4 37 37" shape-rendering="crispEdges" role="img" aria-label="رمز QR لرابط الموقع"><rect class="qr-bg" x="-4" y="-4" width="37" height="37"/><path class="qr-fg" d="M0 0h7v1h-7zM8 0h2v1h-2zM12 0h1v1h-1zM14 0h1v1h-1zM16 0h5v1h-5zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h2v1h-2zM13 1h2v1h-2zM16 1h2v1h-2zM20 1h1v1h-1zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM9 2h1v1h-1zM11 2h1v1h-1zM13 2h2v1h-2zM16 2h1v1h-1zM18 2h1v1h-1zM20 2h1v1h-1zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h8v1h-8zM17 3h1v1h-1zM19 3h1v1h-1zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h2v1h-2zM15 4h2v1h-2zM19 4h2v1h-2zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h6v1h-6zM17 5h3v1h-3zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM8 7h1v1h-1zM11 7h2v1h-2zM14 7h7v1h-7zM0 8h1v1h-1zM2 8h2v1h-2zM5 8h3v1h-3zM9 8h1v1h-1zM11 8h2v1h-2zM14 8h1v1h-1zM17 8h1v1h-1zM19 8h1v1h-1zM22 8h1v1h-1zM25 8h1v1h-1zM27 8h2v1h-2zM1 9h4v1h-4zM8 9h2v1h-2zM11 9h2v1h-2zM16 9h5v1h-5zM22 9h1v1h-1zM24 9h1v1h-1zM28 9h1v1h-1zM4 10h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM10 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM21 10h1v1h-1zM23 10h1v1h-1zM26 10h2v1h-2zM1 11h1v1h-1zM4 11h2v1h-2zM12 11h3v1h-3zM18 11h3v1h-3zM23 11h1v1h-1zM28 11h1v1h-1zM0 12h1v1h-1zM3 12h1v1h-1zM6 12h1v1h-1zM8 12h1v1h-1zM10 12h2v1h-2zM13 12h1v1h-1zM17 12h1v1h-1zM20 12h1v1h-1zM25 12h2v1h-2zM2 13h4v1h-4zM7 13h1v1h-1zM10 13h6v1h-6zM17 13h1v1h-1zM19 13h1v1h-1zM22 13h1v1h-1zM26 13h3v1h-3zM0 14h2v1h-2zM4 14h1v1h-1zM6 14h1v1h-1zM9 14h2v1h-2zM12 14h1v1h-1zM14 14h1v1h-1zM18 14h2v1h-2zM21 14h1v1h-1zM23 14h1v1h-1zM26 14h3v1h-3zM3 15h2v1h-2zM7 15h1v1h-1zM10 15h3v1h-3zM14 15h2v1h-2zM18 15h1v1h-1zM23 15h1v1h-1zM27 15h1v1h-1zM0 16h1v1h-1zM3 16h1v1h-1zM6 16h3v1h-3zM11 16h2v1h-2zM14 16h3v1h-3zM18 16h3v1h-3zM23 16h3v1h-3zM27 16h1v1h-1zM2 17h2v1h-2zM5 17h1v1h-1zM7 17h1v1h-1zM15 17h1v1h-1zM20 17h1v1h-1zM23 17h1v1h-1zM25 17h3v1h-3zM0 18h1v1h-1zM2 18h6v1h-6zM9 18h3v1h-3zM13 18h3v1h-3zM22 18h2v1h-2zM26 18h1v1h-1zM2 19h1v1h-1zM5 19h1v1h-1zM7 19h2v1h-2zM11 19h5v1h-5zM17 19h2v1h-2zM22 19h1v1h-1zM26 19h1v1h-1zM1 20h3v1h-3zM5 20h4v1h-4zM10 20h1v1h-1zM12 20h3v1h-3zM17 20h10v1h-10zM8 21h1v1h-1zM11 21h2v1h-2zM16 21h5v1h-5zM24 21h5v1h-5zM0 22h7v1h-7zM8 22h2v1h-2zM14 22h1v1h-1zM16 22h5v1h-5zM22 22h1v1h-1zM24 22h2v1h-2zM27 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h2v1h-2zM11 23h4v1h-4zM20 23h1v1h-1zM24 23h2v1h-2zM28 23h1v1h-1zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM10 24h2v1h-2zM15 24h1v1h-1zM17 24h1v1h-1zM20 24h5v1h-5zM26 24h3v1h-3zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM8 25h1v1h-1zM12 25h1v1h-1zM15 25h2v1h-2zM19 25h3v1h-3zM24 25h2v1h-2zM28 25h1v1h-1zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM8 26h3v1h-3zM13 26h2v1h-2zM16 26h1v1h-1zM19 26h2v1h-2zM26 26h1v1h-1zM28 26h1v1h-1zM0 27h1v1h-1zM6 27h1v1h-1zM9 27h2v1h-2zM12 27h3v1h-3zM16 27h1v1h-1zM20 27h1v1h-1zM23 27h3v1h-3zM27 27h1v1h-1zM0 28h7v1h-7zM8 28h1v1h-1zM10 28h5v1h-5zM16 28h1v1h-1zM18 28h5v1h-5zM24 28h1v1h-1zM27 28h1v1h-1z"/></svg>
@@ -611,15 +625,15 @@ a{color:inherit}
     </div>
     <div class="table-scroll">
       <table class="cmp">
-        <caption class="vh">مقارنة طلب طبق رئيسي واحد في النموذجين</caption>
+        <caption class="vh">مقارنة طلب وجبة واحدة في النموذجين</caption>
         <thead><tr><th scope="col"><span class="vh">البند</span></th><th scope="col"><span class="pill bad">الوضع الحالي</span></th><th scope="col"><span class="pill good">حلّنا</span></th></tr></thead>
         <tbody>
-          <tr><th scope="row">رسوم توصيل الطبق الرئيسي وحده</th><td id="t-a-0"></td><td id="t-b-0"></td></tr>
-          <tr><th scope="row">إجمالي الطبق الرئيسي وحده</th><td id="t-a-1"></td><td id="t-b-1"></td></tr>
-          <tr><th scope="row">إجمالي الطبق الرئيسي مع طلب جانبي</th><td id="t-a-2"></td><td id="t-b-2"></td></tr>
-          <tr class="key"><th scope="row">التكلفة الفعلية لطلب جانبي إضافي</th><td id="t-a-3"></td><td id="t-b-3"></td></tr>
+          <tr><th scope="row">رسوم توصيل الوجبة وحدها</th><td id="t-a-0"></td><td id="t-b-0"></td></tr>
+          <tr><th scope="row">إجمالي الوجبة وحدها</th><td id="t-a-1"></td><td id="t-b-1"></td></tr>
+          <tr><th scope="row">إجمالي الوجبة مع إضافات بـ10 ر.س</th><td id="t-a-2"></td><td id="t-b-2"></td></tr>
+          <tr class="key"><th scope="row">التكلفة الفعلية للإضافات</th><td id="t-a-3"></td><td id="t-b-3"></td></tr>
           <tr><th scope="row">ماذا سيطلب الزبون؟</th><td id="t-a-4"></td><td id="t-b-4"></td></tr>
-          <tr><th scope="row">سعرات زائدة عن الوجبة</th><td id="t-a-5"></td><td id="t-b-5"></td></tr>
+          <tr><th scope="row">نسبة الهدر في الطلب</th><td id="t-a-5"></td><td id="t-b-5"></td></tr>
         </tbody>
       </table>
     </div>
@@ -641,7 +655,7 @@ a{color:inherit}
     <div class="results" aria-live="polite">
       <div class="res"><span class="res-k">أكل زائد يوميًا</span><span class="res-v" id="r-day"></span></div>
       <div class="res"><span class="res-k">أكل زائد سنويًا</span><span class="res-v" id="r-year"></span></div>
-      <div class="res"><span class="res-k">إنفاق سنوي على طلبات زائدة</span><span class="res-v" id="r-sar"></span><span class="res-n">بافتراض 10 ر.س لكل طلب زائد، مثل الطلب الجانبي في المثال</span></div>
+      <div class="res"><span class="res-k">إنفاق سنوي على طلبات زائدة</span><span class="res-v" id="r-sar"></span><span class="res-n">بافتراض 10 ر.س لكل طلب زائد، مثل إضافات المثال</span></div>
     </div>
   </div>
   <p class="fine">كل الأرقام في هذا القسم افتراضات للتوضيح وليست بيانات رسمية. استبدلها ببيانات حقيقية عند توفرها.</p>
@@ -668,8 +682,8 @@ a{color:inherit}
   document.documentElement.dir = 'rtl';
 
   var THRESHOLD = 35, FLAT_FEE = 10;
-  // Average calories of one main meal, assuming about 2,000 kcal a day.
-  var MEAL_KCAL = 700;
+  // The add-ons in the worked example: a 7 SAR side and a 3 SAR water, 10 SAR in all.
+  var EXAMPLE_ADDONS = ['nuggets', 'water'];
   var ICONS = {
     burger:'<path d="M4.5 10.5C4.5 7 7.9 4.5 12 4.5s7.5 2.5 7.5 6z" class="fb"/><path d="M4 13.5c1.3-1 2.7-1 4 0s2.7 1 4 0 2.7-1 4 0 2.7 1 4 0"/><path d="M5 16.5h14v.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 17z" class="fb"/>',
     nuggets:'<ellipse class="fb" cx="8.5" cy="9.5" rx="4.2" ry="3.2" transform="rotate(-15 8.5 9.5)"/><ellipse class="fb" cx="15.5" cy="12" rx="4.2" ry="3.2" transform="rotate(20 15.5 12)"/><ellipse class="fb" cx="9.5" cy="16.5" rx="4" ry="3" transform="rotate(5 9.5 16.5)"/>',
@@ -678,35 +692,32 @@ a{color:inherit}
     chicken:'<path d="M4.5 10.5C4.5 7 7.9 4.5 12 4.5s7.5 2.5 7.5 6z" class="fb"/><circle class="dt" cx="9.5" cy="7.6" r=".55"/><circle class="dt" cx="12.5" cy="6.6" r=".55"/><circle class="dt" cx="15" cy="8" r=".55"/><path d="M4 13.5h16"/><path d="M5 16.5h14v.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 17z" class="fb"/>',
     double:'<path class="fb" d="M4.5 9.5C4.5 6 7.9 3.5 12 3.5s7.5 2.5 7.5 6z"/><path d="M4 12c1.3-1 2.7-1 4 0s2.7 1 4 0 2.7-1 4 0 2.7 1 4 0"/><path d="M4 15c1.3-1 2.7-1 4 0s2.7 1 4 0 2.7-1 4 0 2.7 1 4 0"/><path class="fb" d="M5 17.5h14v.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 18z"/>',
     rings:'<circle class="fb" cx="9" cy="12" r="5"/><circle cx="9" cy="12" r="2.2"/><circle class="fb" cx="15.5" cy="12" r="5"/><circle cx="15.5" cy="12" r="2.2"/>',
-    slaw:'<path class="fb" d="M4 11h16a8 7 0 0 1-16 0z"/><path d="M8 11c.5-2 2-3 4-3s3.5 1 4 3"/><path d="M9.5 9.5l1-1.5M14 9.5l-.8-1.6"/>',
     juice:'<path d="M13 6.5 14.5 3H17"/><path class="fb" d="M7 6.5h10l-1.4 13.5H8.4z"/><path d="M7.6 11.5h8.8"/><circle cx="12" cy="15.5" r="1.7"/>',
     water:'<path class="fb" d="M9.5 3.5h5v2.5l1.5 2v12a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-12l1.5-2z"/><path d="M8 12h8M8 16h8"/>',
-    icecream:'<path class="fb" d="M7.5 11h9L12 21z"/><path class="fb" d="M7 11a5 5 0 0 1 10 0z"/><path d="M9.6 14.2l3.6 2.6M14.4 14.2l-3 2.2"/>',
-    cookie:'<circle class="fb" cx="12" cy="12" r="8"/><circle class="dt" cx="9" cy="10" r="1"/><circle class="dt" cx="14.5" cy="9" r="1"/><circle class="dt" cx="13.5" cy="14.5" r="1"/><circle class="dt" cx="8.8" cy="14.6" r="1"/>'
+    icecream:'<path class="fb" d="M7.5 11h9L12 21z"/><path class="fb" d="M7 11a5 5 0 0 1 10 0z"/><path d="M9.6 14.2l3.6 2.6M14.4 14.2l-3 2.2"/>'
   };
   var STATUS_ICONS =
     '<svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>'+
     '<svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0z"/><path d="M3.3 6.7a6.6 6.6 0 0 1 9.4 0l-1.4 1.4a4.6 4.6 0 0 0-6.6 0z"/><path d="M1 4.4a9.9 9.9 0 0 1 14 0l-1.4 1.4a7.9 7.9 0 0 0-11.2 0z"/></svg>'+
     '<svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="20" height="9" rx="2"/><path d="M25 4.5v4a2 2 0 0 0 0-4z" opacity=".4"/></svg>';
   var CATS = [
-    {id:'all', name:'الكل'}, {id:'meals', name:'وجبات'}, {id:'sides', name:'أطباق جانبية'},
-    {id:'drinks', name:'مشروبات'}, {id:'sweets', name:'حلى'}
+    {id:'all', name:'الكل'}, {id:'meals', name:'وجبات'}, {id:'sides', name:'أطباق إضافية'},
+    {id:'drinks', name:'مشروبات إضافية'}
   ];
-  // Whole-riyal prices. Nuggets is the only item priced exactly at the 10 SAR gap to free delivery.
+  // Meals are the base of an order; extra dishes and extra drinks are add-ons and count toward the waste ratio.
+  // Whole-riyal prices. The only add-ons that make up exactly the 10 SAR gap to free delivery are a 7 SAR side and a 3 SAR water.
   // g = serving weight (ml for drinks, counted 1:1 as grams), kcal = calories. Typical values for illustration.
   var MENU = [
-    {id:'burger',   cat:'meals',  name:'برجر كلاسيك',      meta:'لحم بقري، جبن شيدر، صوص خاص', price:25, g:250, kcal:700},
-    {id:'chicken',  cat:'meals',  name:'برجر دجاج مقرمش',  meta:'صدر دجاج، خس، مايونيز',       price:23, g:230, kcal:640},
-    {id:'double',   cat:'meals',  name:'دبل برجر',         meta:'شريحتا لحم وجبن مضاعف',       price:32, g:340, kcal:980},
-    {id:'nuggets',  cat:'sides',  name:'ناجتس 6 قطع',      meta:'مع صوص الباربكيو',            price:10, g:100, kcal:280},
-    {id:'fries',    cat:'sides',  name:'بطاطس مقلية',      meta:'حجم وسط',                     price:8,  g:115, kcal:330},
-    {id:'rings',    cat:'sides',  name:'حلقات بصل',        meta:'8 حلقات مقرمشة',              price:9,  g:110, kcal:360},
-    {id:'slaw',     cat:'sides',  name:'كول سلو',          meta:'علبة صغيرة',                  price:6,  g:100, kcal:150},
-    {id:'drink',    cat:'drinks', name:'مشروب غازي',       meta:'علبة',                        price:4,  g:330, kcal:140, ml:true},
-    {id:'juice',    cat:'drinks', name:'عصير برتقال',      meta:'طازج',                        price:7,  g:300, kcal:135, ml:true},
-    {id:'water',    cat:'drinks', name:'مياه',             meta:'قارورة',                      price:2,  g:330, kcal:0,   ml:true},
-    {id:'icecream', cat:'sweets', name:'آيس كريم فانيلا',  meta:'كوب وسط',                     price:7,  g:150, kcal:250},
-    {id:'cookie',   cat:'sweets', name:'كوكيز شوكولاتة',   meta:'قطعتان',                      price:5,  g:60,  kcal:290}
+    {id:'burger',   cat:'meals',  name:'وجبة برجر كلاسيك',  meta:'برجر لحم، بطاطس، مشروب',  price:25, g:365, kcal:1050},
+    {id:'chicken',  cat:'meals',  name:'وجبة دجاج مقرمش',   meta:'برجر دجاج، بطاطس، مشروب', price:25, g:345, kcal:980},
+    {id:'double',   cat:'meals',  name:'وجبة دبل برجر',     meta:'دبل لحم، بطاطس، مشروب',   price:27, g:455, kcal:1330},
+    {id:'fries',    cat:'sides',  name:'بطاطس إضافية',      meta:'حجم وسط',                 price:6,  g:115, kcal:330},
+    {id:'nuggets',  cat:'sides',  name:'ناجتس 6 قطع',       meta:'مع صوص الباربكيو',        price:7,  g:100, kcal:280},
+    {id:'rings',    cat:'sides',  name:'حلقات بصل',         meta:'8 حلقات مقرمشة',          price:8,  g:110, kcal:360},
+    {id:'icecream', cat:'sides',  name:'آيس كريم فانيلا',   meta:'كوب وسط',                 price:9,  g:150, kcal:250},
+    {id:'water',    cat:'drinks', name:'مياه',              meta:'قارورة',                  price:3,  g:330, kcal:0,   ml:true},
+    {id:'drink',    cat:'drinks', name:'مشروب غازي إضافي',  meta:'علبة',                    price:5,  g:330, kcal:140, ml:true},
+    {id:'juice',    cat:'drinks', name:'عصير برتقال',       meta:'طازج',                    price:6,  g:300, kcal:135, ml:true}
   ];
   var PRICE = {}; MENU.forEach(function(m){ PRICE[m.id] = m.price; });
   function fresh(){ var c = {}; MENU.forEach(function(m){ c[m.id] = m.id==='burger' ? 1 : 0; }); return c; }
@@ -730,22 +741,25 @@ a{color:inherit}
   function sumOf(c, key){
     return MENU.reduce(function(s,m){ return s + m[key]*c[m.id]; }, 0);
   }
-  // Extra food is measured in calories: whatever the basket holds beyond one average meal.
-  function extraKcal(c){ return Math.max(0, sumOf(c,'kcal') - MEAL_KCAL); }
+  // Waste ratio = value of add-ons (anything that is not a meal) / value of the order, before delivery.
+  function wasteValue(c){ return MENU.reduce(function(s,m){ return s + (m.cat==='meals' ? 0 : m.price*c[m.id]); }, 0); }
+  function wasteRatio(c){ var s = sub(c); return s>0 ? wasteValue(c)/s : 0; }
+  function pctText(r){ var v = Math.round(r*1000)/10; return N((v%1===0 ? v.toFixed(0) : v.toFixed(1))+'%'); }
   function fmtInt(n){ return N(Math.round(n).toLocaleString('en-US')); }
-  function plus(c,id){ var o = Object.assign({}, c); o[id]++; return o; }
-  function addCost(app,c,id){ return r2(total(app,plus(c,id)) - total(app,c)); }
+  function plus(c,ids){ var o = Object.assign({}, c); [].concat(ids).forEach(function(id){ o[id]++; }); return o; }
+  function addCost(app,c,ids){ return r2(total(app,plus(c,ids)) - total(app,c)); }
+  var EXAMPLE_VALUE = EXAMPLE_ADDONS.reduce(function(s,id){ return s + PRICE[id]; }, 0);
 
-  // Cheapest basket that still contains the burger; ties go to the basket with more food, then fewer items.
-  // byExtra[e] = the fewest-item set of add-ons (up to 3 of each) costing exactly e riyals.
+  // Cheapest basket that still contains the meal; ties go to the basket with more food, then fewer items.
+  // byExtra[e] = the fewest-item set of add-ons (at most one of each) costing exactly e riyals.
   function cheapest(app){
     var CAP = 60, byExtra = [{k:0, c:{}}];
     MENU.forEach(function(m){
-      if (m.id==='burger') return;
+      if (m.cat==='meals') return;
       var next = byExtra.slice();
       byExtra.forEach(function(b, e){
         if (!b) return;
-        for (var q=1; q<=3; q++){
+        for (var q=1; q<=1; q++){
           var e2 = e + q*m.price; if (e2 > CAP) break;
           if (!next[e2] || b.k+q < next[e2].k){
             var c = Object.assign({}, b.c); c[m.id] = q;
@@ -764,13 +778,13 @@ a{color:inherit}
     return Object.assign(fresh(), pick.c);
   }
   function shortName(m){ return m.name.replace(/ \d.*$/,''); }
-  var KIND = {meals:'طبق رئيسي', sides:'طلب جانبي', drinks:'مشروب', sweets:'حلى'};
+  var KIND = {meals:'وجبة', sides:'طلب جانبي', drinks:'مشروب'};
   function describe(c){
     return MENU.filter(function(m){ return c[m.id]>0; }).map(function(m){
       return (c[m.id]>1 ? c[m.id]+'× ' : '') + KIND[m.cat];
     }).join(' + ');
   }
-  function extrasText(c){ return fmtInt(extraKcal(c))+' سعرة'; }
+  function extrasText(c){ return pctText(wasteRatio(c)); }
 
   function buildPhone(app){
     var root = $('menu-'+app).closest('.screen');
@@ -861,53 +875,51 @@ a{color:inherit}
   }
 
   function renderReadout(app){
-    var c = state[app], s = sub(c), t = total(app,c), ac = addCost(app,c,'nuggets'), exK = extraKcal(c);
+    var c = state[app], s = sub(c), t = total(app,c), ac = addCost(app,c,EXAMPLE_ADDONS), w = wasteRatio(c), wv = wasteValue(c);
     var acHtml = ac<=0
       ? '<span class="stat-v bad-t">'+N(money(Math.abs(ac)))+' <small>ر.س</small></span><span class="stat-k">'+(ac<0?'توفّر عليك':'مجانًا فعليًا')+'</span>'
-      : '<span class="stat-v good-t">'+N(money(ac))+' <small>ر.س</small></span><span class="stat-k">'+(ac<PRICE.nuggets?'أقل من سعرها بسبب خصم التوصيل':'ثمنها الكامل')+'</span>';
-    var exHtml = exK>0
-      ? '<span class="stat-v bad-t">'+fmtInt(exK)+' <small>سعرة</small></span><span class="stat-k">فوق متوسط الوجبة الواحدة ('+N(MEAL_KCAL)+' سعرة)</span>'
-      : '<span class="stat-v good-t">لا يوجد</span><span class="stat-k">الطلب ضمن وجبة واحدة</span>';
+      : '<span class="stat-v good-t">'+N(money(ac))+' <small>ر.س</small></span><span class="stat-k">'+(ac<EXAMPLE_VALUE?'أقل من سعرها بسبب خصم التوصيل':'ثمنها الكامل')+'</span>';
+    var exHtml = w>0
+      ? '<span class="stat-v bad-t">'+pctText(w)+'</span><span class="stat-k">إضافات بـ'+sar(wv)+' من '+sar(s)+'</span>'
+      : '<span class="stat-v good-t">'+N('0%')+'</span><span class="stat-k">'+(s>0 ? 'طلبك وجبات رئيسية فقط' : 'السلة فارغة')+'</span>';
 
     var cls, msg;
     if (s===0){ cls='info'; msg='السلة فارغة. أضف وجبتك لتبدأ.'; }
     else if (app==='a'){
       if (s<THRESHOLD){ cls='bad'; msg='إجماليك الآن '+sar(t)+'. لو أضفت أكلًا بقيمة '+sar(THRESHOLD-s)+' يصبح '+sar(THRESHOLD)+' فقط. التطبيق يكافئك على طلب أكثر.'; }
-      else if (exK>0){ cls='bad'; msg='حصلت على توصيل مجاني، لكن طلبك تجاوز متوسط الوجبة الواحدة بـ'+fmtInt(exK)+' سعرة.'; }
-      else { cls='info'; msg='حصلت على توصيل مجاني، وطلبك ضمن وجبة واحدة.'; }
+      else if (w>0){ cls='bad'; msg='حصلت على توصيل مجاني، لكن '+pctText(w)+' من طلبك إضافات لم تكن تحتاجها.'; }
+      else { cls='info'; msg='حصلت على توصيل مجاني، وطلبك وجبات رئيسية فقط.'; }
     } else {
-      if (exK>0){ cls='info'; msg='طلبك تجاوز متوسط الوجبة الواحدة بـ'+fmtInt(exK)+' سعرة. في حلّنا كل إضافة ترفع الفاتورة، فلا شيء يدفعك لها.'; }
-      else { cls='good'; msg='طلبك أخذ خصم '+N(Math.round(discount(s)*100)+'%')+' على التوصيل، فتدفع '+sar(fee.b(s))+' بدل '+sar(FLAT_FEE)+'، وطلبك ضمن وجبة واحدة.'; }
+      if (w>0){ cls='info'; msg='نسبة الهدر في طلبك '+pctText(w)+'. في حلّنا كل إضافة ترفع الفاتورة، فلا شيء يدفعك لها.'; }
+      else { cls='good'; msg='طلبك أخذ خصم '+N(Math.round(discount(s)*100)+'%')+' على التوصيل، فتدفع '+sar(fee.b(s))+' بدل '+sar(FLAT_FEE)+'، ونسبة الهدر '+N('0%')+'.'; }
     }
     $('readout-'+app).innerHTML =
-      '<div class="stat"><span class="stat-k">إضافة طلب جانبي (10 ر.س) تكلفك</span>'+acHtml+'</div>'+
-      '<div class="stat"><span class="stat-k">سعرات زائدة</span>'+exHtml+'</div>'+
+      '<div class="stat"><span class="stat-k">إضافات بـ10 ر.س تكلفك الآن</span>'+acHtml+'</div>'+
+      '<div class="stat"><span class="stat-k">نسبة الهدر</span>'+exHtml+'</div>'+
       '<p class="verdict '+cls+'">'+msg+'</p>';
   }
 
   function buildCal(app){
     $('cal-'+app).innerHTML =
-      '<div class="cal-head"><b class="cal-v"></b><span class="cal-k">سعرة</span></div>'+
-      '<div class="cal-track"><div class="cal-fill cal-ok"></div><div class="cal-fill cal-over"></div>'+
-      '<div class="cal-meal" title="متوسط الوجبة الواحدة"><span>'+MEAL_KCAL+'</span></div></div>'+
+      '<div class="cal-head"><b class="cal-v"></b><span class="cal-k">نسبة الهدر</span></div>'+
+      '<div class="cal-track"><div class="cal-fill cal-ok"></div><div class="cal-fill cal-over"></div></div>'+
       '<div class="cal-foot"><b></b><span class="cal-note"></span></div>';
   }
+  // The meter splits the order by value: green for meals at the bottom, orange for add-ons on top.
   function renderCal(app){
-    var el = $('cal-'+app), k = sumOf(state[app],'kcal'), over = Math.max(0, k - MEAL_KCAL);
-    var max = Math.max(MEAL_KCAL*2, k*1.1);
-    function pct(v){ return (v/max*100).toFixed(2)+'%'; }
-    el.setAttribute('aria-label', 'سعرات الطلب '+Math.round(k)+'، ومتوسط الوجبة الواحدة '+MEAL_KCAL);
-    el.querySelector('.cal-v').innerHTML = fmtInt(k);
+    var el = $('cal-'+app), c = state[app], s = sub(c), wv = wasteValue(c), w = wasteRatio(c);
+    var main = s>0 ? (1-w)*100 : 0, extra = s>0 ? w*100 : 0;
+    el.setAttribute('aria-label', 'نسبة الهدر '+Math.round(w*1000)/10+'%: إضافات بقيمة '+money(wv)+' ر.س من '+money(s)+' ر.س');
+    el.querySelector('.cal-v').innerHTML = pctText(w);
     var ok = el.querySelector('.cal-ok'), up = el.querySelector('.cal-over');
-    ok.style.height = pct(Math.min(k, MEAL_KCAL));
-    ok.classList.toggle('capped', over>0);
-    up.style.bottom = pct(MEAL_KCAL);
-    up.style.height = pct(over);
-    el.querySelector('.cal-meal').style.bottom = pct(MEAL_KCAL);
+    ok.style.height = main.toFixed(2)+'%';
+    ok.classList.toggle('capped', extra>0);
+    up.style.bottom = main.toFixed(2)+'%';
+    up.style.height = extra.toFixed(2)+'%';
     var foot = el.querySelector('.cal-foot');
-    foot.className = 'cal-foot ' + (over>0 ? 'over' : 'ok');
-    foot.querySelector('b').innerHTML = N((over>0 ? '+' : '') + Math.round(over).toLocaleString('en-US'));
-    foot.querySelector('.cal-note').textContent = over>0 ? 'سعرة زائدة' : 'ضمن الوجبة';
+    foot.className = 'cal-foot ' + (wv>0 ? 'over' : 'ok');
+    foot.querySelector('b').innerHTML = N(wv>0 ? '+'+money(wv) : '0');
+    foot.querySelector('.cal-note').textContent = wv>0 ? 'ر.س إضافات' : 'بدون إضافات';
   }
 
   function renderChart(){
@@ -927,8 +939,8 @@ a{color:inherit}
     g += '<line class="zone-edge" x1="'+x(z0)+'" x2="'+x(z0)+'" y1="'+y(Y1)+'" y2="'+y(0)+'"/>';
     g += '<line class="zone-edge" x1="'+x(z1)+'" x2="'+x(z1)+'" y1="'+y(Y1)+'" y2="'+y(0)+'"/>';
     g += '<text class="zone-label" x="'+((x(z0)+x(z1))/2)+'" y="'+(y(Y1)+18)+'" text-anchor="middle">منطقة الهدر</text>';
-    g += '<text class="guide-label" x="'+x(z0)+'" y="'+(H-m.b+40)+'" text-anchor="middle">طبق رئيسي</text>';
-    g += '<text class="guide-label" x="'+x(z1)+'" y="'+(H-m.b+40)+'" text-anchor="middle">مع طلب جانبي</text>';
+    g += '<text class="guide-label" x="'+x(z0)+'" y="'+(H-m.b+40)+'" text-anchor="middle">وجبة</text>';
+    g += '<text class="guide-label" x="'+x(z1)+'" y="'+(H-m.b+40)+'" text-anchor="middle">مع الإضافات</text>';
     g += '<text class="ttl" x="'+((m.l+W-m.r)/2)+'" y="'+(H-10)+'" text-anchor="middle">قيمة الأكل في السلة (ر.س)</text>';
     g += '<text class="ttl" x="'+m.l+'" y="14" text-anchor="start">ما يدفعه الزبون (ر.س)</text>';
     // our model: fee shrinks linearly, so the total keeps rising
@@ -954,13 +966,13 @@ a{color:inherit}
   }
 
   function renderTable(){
-    var one = fresh(), two = plus(fresh(),'nuggets');
+    var one = fresh(), two = plus(fresh(), EXAMPLE_ADDONS);
     ['a','b'].forEach(function(app){
       var pick = cheapest(app);
       $('t-'+app+'-0').innerHTML = sar(fee[app](sub(one)));
       $('t-'+app+'-1').innerHTML = sar(total(app,one));
       $('t-'+app+'-2').innerHTML = sar(total(app,two));
-      $('t-'+app+'-3').innerHTML = sar(addCost(app,one,'nuggets'));
+      $('t-'+app+'-3').innerHTML = sar(addCost(app,one,EXAMPLE_ADDONS));
       $('t-'+app+'-4').textContent = describe(pick);
       $('t-'+app+'-5').innerHTML = extrasText(pick);
     });
