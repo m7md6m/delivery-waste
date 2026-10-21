@@ -523,12 +523,12 @@ a{color:inherit}
     <div class="sec-head">
       <p class="eyebrow">المحاكي</p>
       <h2>نفس المطعم ونفس الأسعار ونفس حد الـ35 ريالًا</h2>
-      <p>الزبون في هذا المثال يريد وجبة واحدة بـ25 ر.س. الوجبة الأولى هي الأساس، وأي شيء يُطلب فوقها، من طبق أو مشروب أو حتى وجبة ثانية، يدخل في نسبة الهدر. ضع نفس الطلب في الجوالين وقارن رسوم التوصيل، والعدّاد بجانب كل جوال يحسب نسبة الهدر في طلبك.</p>
+      <p>الزبون في هذا المثال يريد وجبة واحدة بـ25 ر.س. نفترض أن 460 غ تكفي شخصًا واحدًا، فكل ما يزيد عليها، من طبق أو مشروب أو وجبة ثانية، يدخل في نسبة الهدر. ضع نفس الطلب في الجوالين وقارن رسوم التوصيل، والعدّاد بجانب كل جوال يحسب نسبة الهدر في طلبك.</p>
       <div class="ratio-box">
-        <p class="ratio-eq"><span>نسبة الهدر</span><span class="op">=</span><span>قيمة الإضافات ÷ قيمة الطلب × 100</span></p>
-        <p class="ratio-ex">الإضافات: كل ما فوق الوجبة الأولى.</p>
-        <p class="ratio-ex">مثال: وجبة 25 ر.س، ثم طلب جانبي 7 ر.س ومياه 3 ر.س للوصول إلى التوصيل المجاني</p>
-        <p class="ratio-math"><span dir="ltr">(7 + 3) ÷ 35 × 100 = <b>28.6%</b></span></p>
+        <p class="ratio-eq"><span>نسبة الهدر</span><span class="op">=</span><span>(وزن الطلب − 460 غ) ÷ وزن الطلب × 100</span></p>
+        <p class="ratio-ex">الهدر يبدأ بعد 460 غ، والمشروبات تُحسب بالوزن (1 مل ≈ 1 غ).</p>
+        <p class="ratio-ex">مثال: وجبة 365 غ، ثم طلب جانبي 100 غ ومياه 330 مل للوصول إلى التوصيل المجاني</p>
+        <p class="ratio-math"><span dir="ltr">(795 − 460) ÷ 795 × 100 = <b>42.1%</b></span></p>
       </div>
     </div>
     <aside class="try-qr" aria-label="افتح المحاكي على جوالك">
@@ -576,7 +576,7 @@ a{color:inherit}
     </article>
 
     <article class="device is-b" aria-label="تطبيق التوصيل المتدرج">
-      <div class="device-label"><span class="pill good">حلّنا: توصيل ينقص بالتدريج</span><span>يبدأ 10 ر.س وينقص مع كل ريال حتى يصير مجانيًا عند 35 ر.س</span></div>
+      <div class="device-label"><span class="pill good">حلّنا: توصيل ينقص بالتدريج</span><span>10 ر.س حتى 15 ر.س، ثم ينقص مع كل ريال حتى يصير مجانيًا عند 35 ر.س</span></div>
       <div class="phone-row">
       <div class="iphone">
         <span class="hw action"></span><span class="hw vol-up"></span><span class="hw vol-dn"></span><span class="hw power"></span><span class="hw cam"></span>
@@ -587,7 +587,7 @@ a{color:inherit}
           <div class="app-cover" aria-hidden="true"><svg viewBox="0 0 24 24" class="cover-art"></svg><span class="cover-tag">مفتوح الآن</span></div>
           <div class="app-info">
             <div><strong>مطعم افتراضي</strong><small>تقييم 4.7 · يبعد 2.1 كم</small></div>
-            <span class="policy">التوصيل ينقص<br>مع كل إضافة</span>
+            <span class="policy">التوصيل ينقص<br>بعد 15 ر.س</span>
           </div>
           <div class="app-tabs" role="group" aria-label="أقسام القائمة"></div>
           <ul class="menu" id="menu-b"></ul>
@@ -614,14 +614,14 @@ a{color:inherit}
     <div class="legend">
       <span><i class="sw a"></i>الوضع الحالي</span>
       <span><i class="sw b"></i>حلّنا: توصيل متدرج</span>
-      <span><i class="sw s"></i>النموذجان متطابقان (توصيل مجاني)</span>
+      <span><i class="sw s"></i>النموذجان متطابقان</span>
       <span><i class="sw z"></i>منطقة الهدر</span>
     </div>
     <div class="chart-scroll" dir="ltr"><svg id="chart" viewBox="0 0 680 380" role="img" aria-label="رسم بياني لإجمالي الفاتورة مقابل قيمة الأكل في النموذجين"></svg></div>
   </div>
   <div class="why-notes">
     <p><b>الخط البرتقالي:</b> أي سلة قيمتها بين 25 و35 ريالًا تدفع أكثر إذا لم تُضف أكلًا. سلة بـ30 ريالًا تكلّف 40، ولو أضفت 5 ريالات من الأكل تنخفض إلى 35. التطبيق يكافئك على طلب أكثر.</p>
-    <p><b>الخط الأخضر:</b> التوصيل ينقص مع كل ريال تضيفه حتى يصير مجانيًا عند 35، لكنه ينقص أقل من سعر الأكل نفسه، فالإجمالي يرتفع دائمًا بهدوء. لا توجد قفزة، ولا لحظة يصير فيها الصنف الإضافي مجانيًا.</p>
+    <p><b>الخط الأخضر:</b> حتى 15 ريالًا الرسوم 10 ر.س مثل اليوم. بعدها ينقص التوصيل مع كل ريال تضيفه حتى يصير مجانيًا عند 35، لكنه ينقص أقل من سعر الأكل نفسه، فالإجمالي يرتفع دائمًا بهدوء. لا توجد قفزة، ولا لحظة يصير فيها الصنف الإضافي مجانيًا.</p>
   </div>
 </section>
 
@@ -629,18 +629,18 @@ a{color:inherit}
   <div class="sec-head">
     <p class="eyebrow">الحل</p>
     <h2>خصم على التوصيل يكبر مع الطلب، بالتدريج</h2>
-    <p>نحتفظ بنفس رسوم التوصيل ونفس حد الـ35 ريالًا. الفرق أن الخصم لا يأتي دفعة واحدة عند الحد، بل يبدأ من أول ريال ويزيد بنسبة قيمة الطلب.</p>
+    <p>نحتفظ بنفس رسوم التوصيل ونفس حد الـ35 ريالًا. الفرق أن الخصم لا يأتي دفعة واحدة عند الحد، بل يبدأ بعد 15 ريالًا ويزيد مع كل ريال حتى يكتمل عند 35.</p>
   </div>
   <div class="solution">
     <div class="formula">
       <p class="eyebrow">المعادلة</p>
       <div class="eq">
-        <p><span>نسبة الخصم</span><span class="op">=</span><em>قيمة الطلب ÷ 35</em></p>
+        <p><span>نسبة الخصم</span><span class="op">=</span><em>(قيمة الطلب − 15) ÷ 20</em></p>
         <p><span>رسوم التوصيل</span><span class="op">=</span><span>10 ر.س × (100% − نسبة الخصم)</span></p>
       </div>
       <p class="eyebrow">رسوم التوصيل حسب قيمة الطلب</p>
       <div class="steps" id="steps"></div>
-      <p class="note">كل ريال تضيفه ينقص التوصيل <b class="num">29</b> هللة تقريبًا، بينما يكلفك ريالًا كاملًا من الأكل. لهذا يرتفع الإجمالي مع كل إضافة، ولا يصير الصنف الزائد أرخص من عدمه أبدًا.</p>
+      <p class="note">حتى 15 ر.س لا يوجد خصم. بعدها كل ريال تضيفه ينقص التوصيل <b class="num">50</b> هللة، بينما يكلفك ريالًا كاملًا من الأكل. لهذا يرتفع الإجمالي مع كل إضافة، ولا يصير الصنف الزائد أرخص من عدمه أبدًا.</p>
     </div>
     <div class="table-scroll">
       <table class="cmp">
@@ -687,8 +687,8 @@ a{color:inherit}
   </div>
   <ul class="points">
     <li><h3>المشكلة</h3><p>التوصيل المجاني الذي يأتي دفعة واحدة عند 35 ريالًا يجعل إضافة الأكل أرخص من دفع التوصيل، فيطلب الناس أكثر مما يحتاجون.</p></li>
-    <li><h3>الحل</h3><p>خصم على التوصيل يزيد بالتدريج مع قيمة الطلب حتى يصير مجانيًا عند نفس الحد، فيكون لكل صنف إضافي ثمن واضح.</p></li>
-    <li><h3>النتيجة</h3><p>الطلب الصغير يدفع توصيلًا أقل من اليوم، والطلب الكبير يبقى مجانيًا كما هو، ولا يملك الزبون سببًا لإضافة ما لا يريده.</p></li>
+    <li><h3>الحل</h3><p>خصم على التوصيل يبدأ بعد 15 ريالًا ويزيد بالتدريج مع قيمة الطلب حتى يصير مجانيًا عند نفس الحد، فيكون لكل صنف إضافي ثمن واضح.</p></li>
+    <li><h3>النتيجة</h3><p>الطلب بين 15 و35 ريالًا يدفع توصيلًا أقل من اليوم، والطلب الكبير يبقى مجانيًا كما هو، ولا يملك الزبون سببًا لإضافة ما لا يريده.</p></li>
   </ul>
 </section>
 </main>
@@ -700,7 +700,9 @@ a{color:inherit}
   document.documentElement.lang = 'ar';
   document.documentElement.dir = 'rtl';
 
-  var THRESHOLD = 35, FLAT_FEE = 10;
+  // Delivery: the discount starts above DISCOUNT_FROM and is complete at THRESHOLD.
+  // Waste: everything above PORTION_G grams (drinks weighed at 1 ml = 1 g).
+  var THRESHOLD = 35, FLAT_FEE = 10, DISCOUNT_FROM = 15, PORTION_G = 460;
   // The add-ons in the worked example: a 7 SAR side and a 3 SAR water, 10 SAR in all.
   var EXAMPLE_ADDONS = ['nuggets', 'water'];
   var ICONS = {
@@ -740,8 +742,7 @@ a{color:inherit}
   ];
   var PRICE = {}, ITEM = {}; MENU.forEach(function(m){ PRICE[m.id] = m.price; ITEM[m.id] = m; });
   function fresh(){ var c = {}; MENU.forEach(function(m){ c[m.id] = m.id==='burger' ? 1 : 0; }); return c; }
-  // order[app] lists meal units in the order they were added; the first one is the base of the order.
-  var state = {a:fresh(), b:fresh(), tab:{a:'all', b:'all'}, order:{a:['burger'], b:['burger']}};
+  var state = {a:fresh(), b:fresh(), tab:{a:'all', b:'all'}};
 
   var $ = function(id){ return document.getElementById(id); };
   function r2(n){ return Math.round(n*100)/100; }
@@ -750,8 +751,8 @@ a{color:inherit}
   function sar(n){ return N(money(n))+' ر.س'; }
 
   function sub(c){ return MENU.reduce(function(s,m){ return s + m.price*c[m.id]; }, 0); }
-  // Share of the delivery fee waived: grows with the order value and reaches 100% at the threshold.
-  function discount(s){ return Math.min(1, Math.max(0, s/THRESHOLD)); }
+  // Share of the delivery fee waived: 0% up to DISCOUNT_FROM, then grows with the order value to 100% at the threshold.
+  function discount(s){ return Math.min(1, Math.max(0, (s-DISCOUNT_FROM)/(THRESHOLD-DISCOUNT_FROM))); }
   var fee = {
     a:function(s){ return s<=0 ? 0 : (s>=THRESHOLD ? 0 : FLAT_FEE); },
     b:function(s){ return s<=0 ? 0 : r2(FLAT_FEE*(1-discount(s))); }
@@ -761,16 +762,9 @@ a{color:inherit}
   function sumOf(c, key){
     return MENU.reduce(function(s,m){ return s + m[key]*c[m.id]; }, 0);
   }
-  // Waste ratio = value of add-ons (anything that is not a meal) / value of the order, before delivery.
-  // The base is the first meal still in the cart; without an order history, the first meal on the menu.
-  function baseOf(c, order){
-    for (var i = 0; order && i < order.length; i++) if (c[order[i]] > 0) return order[i];
-    var m = MENU.filter(function(m){ return m.cat==='meals' && c[m.id]>0; })[0];
-    return m ? m.id : null;
-  }
-  // Everything beyond one base meal is extra: add-ons, and any second meal too.
-  function wasteValue(c, order){ var b = baseOf(c, order); return r2(sub(c) - (b ? PRICE[b] : 0)); }
-  function wasteRatio(c, order){ var s = sub(c); return s>0 ? wasteValue(c, order)/s : 0; }
+  // Waste ratio = (order weight - PORTION_G) / order weight. One person's portion is not waste.
+  function overWeight(c){ return Math.max(0, sumOf(c,'g') - PORTION_G); }
+  function wasteRatio(c){ var w = sumOf(c,'g'); return w>0 ? overWeight(c)/w : 0; }
   function pctText(r){ var v = Math.round(r*1000)/10; return N((v%1===0 ? v.toFixed(0) : v.toFixed(1))+'%'); }
   function fmtInt(n){ return N(Math.round(n).toLocaleString('en-US')); }
   function plus(c,ids){ var o = Object.assign({}, c); [].concat(ids).forEach(function(id){ o[id]++; }); return o; }
@@ -855,13 +849,7 @@ a{color:inherit}
     ul.addEventListener('click', function(e){
       var btn = e.target.closest('button.step'); if (!btn) return;
       var id = btn.closest('.item').dataset.id;
-      var before = state[app][id], q = Math.max(0, Math.min(9, before + Number(btn.dataset.d)));
-      state[app][id] = q;
-      if (ITEM[id].cat === 'meals'){
-        var ord = state.order[app];
-        if (q > before) ord.push(id);
-        else if (q < before){ var k = ord.lastIndexOf(id); if (k >= 0) ord.splice(k, 1); }
-      }
+      state[app][id] = Math.max(0, Math.min(9, state[app][id] + Number(btn.dataset.d)));
       update();
     });
   }
@@ -893,8 +881,11 @@ a{color:inherit}
         ? '<div class="nudge hot">أضف <b>'+sar(THRESHOLD-s)+'</b> واحصل على توصيل مجاني<div class="bar"><span style="width:'+pct+'%"></span></div></div>'
         : '<div class="nudge ok">حصلت على توصيل مجاني<div class="bar"><span style="width:100%"></span></div></div>';
     } else {
-      nudge = s<THRESHOLD
-        ? '<div class="nudge ok">خصمك على التوصيل <b>'+N(Math.round(discount(s)*100)+'%')+'</b>، ويزيد شوي مع كل ريال تضيفه<div class="bar"><span style="width:'+pct+'%"></span></div></div>'
+      var d = discount(s);
+      nudge = s<=DISCOUNT_FROM
+        ? '<div class="nudge">الخصم على التوصيل يبدأ بعد <b>'+N(DISCOUNT_FROM)+' ر.س</b><div class="bar"><span style="width:0"></span></div></div>'
+        : s<THRESHOLD
+        ? '<div class="nudge ok">خصمك على التوصيل <b>'+N(Math.round(d*100)+'%')+'</b>، ويزيد شوي مع كل ريال تضيفه<div class="bar"><span style="width:'+(d*100)+'%"></span></div></div>'
         : '<div class="nudge ok">خصمك على التوصيل <b>'+N('100%')+'</b>، التوصيل مجاني<div class="bar"><span style="width:100%"></span></div></div>';
     }
     if (s>0 && f<FLAT_FEE) feeCell = '<s>'+N(money(FLAT_FEE))+'</s>' + (f===0 ? '<span class="free">مجاني</span>' : N(money(f)));
@@ -907,23 +898,24 @@ a{color:inherit}
   }
 
   function renderReadout(app){
-    var c = state[app], s = sub(c), t = total(app,c), ac = addCost(app,c,EXAMPLE_ADDONS), w = wasteRatio(c, state.order[app]), wv = wasteValue(c, state.order[app]);
+    var c = state[app], s = sub(c), t = total(app,c), ac = addCost(app,c,EXAMPLE_ADDONS), w = wasteRatio(c), ov = overWeight(c);
     var acHtml = ac<=0
       ? '<span class="stat-v bad-t">'+N(money(Math.abs(ac)))+' <small>ر.س</small></span><span class="stat-k">'+(ac<0?'توفّر عليك':'مجانًا فعليًا')+'</span>'
       : '<span class="stat-v good-t">'+N(money(ac))+' <small>ر.س</small></span><span class="stat-k">'+(ac<EXAMPLE_VALUE?'أقل من سعرها بسبب خصم التوصيل':'ثمنها الكامل')+'</span>';
     var exHtml = w>0
-      ? '<span class="stat-v bad-t">'+pctText(w)+'</span><span class="stat-k">إضافات بـ'+sar(wv)+' من '+sar(s)+'</span>'
-      : '<span class="stat-v good-t">'+N('0%')+'</span><span class="stat-k">'+(s>0 ? 'طلبك وجبة واحدة فقط' : 'السلة فارغة')+'</span>';
+      ? '<span class="stat-v bad-t">'+pctText(w)+'</span><span class="stat-k">'+fmtInt(ov)+' غ فوق حد '+N(PORTION_G)+' غ</span>'
+      : '<span class="stat-v good-t">'+N('0%')+'</span><span class="stat-k">'+(s>0 ? 'طلبك ضمن '+N(PORTION_G)+' غ' : 'السلة فارغة')+'</span>';
 
     var cls, msg;
     if (s===0){ cls='info'; msg='السلة فارغة. أضف وجبتك لتبدأ.'; }
     else if (app==='a'){
       if (s<THRESHOLD){ cls='bad'; msg='إجماليك الآن '+sar(t)+'. لو أضفت أكلًا بقيمة '+sar(THRESHOLD-s)+' يصبح '+sar(THRESHOLD)+' فقط. التطبيق يكافئك على طلب أكثر.'; }
-      else if (w>0){ cls='bad'; msg='حصلت على توصيل مجاني، لكن '+pctText(w)+' من طلبك إضافات لم تكن تحتاجها.'; }
-      else { cls='info'; msg='حصلت على توصيل مجاني، وطلبك وجبة واحدة فقط.'; }
+      else if (w>0){ cls='bad'; msg='حصلت على توصيل مجاني، لكن '+pctText(w)+' من طلبك فوق حد '+N(PORTION_G)+' غ، أي '+fmtInt(ov)+' غ لم تكن تحتاجها.'; }
+      else { cls='info'; msg='حصلت على توصيل مجاني، وطلبك ضمن حد '+N(PORTION_G)+' غ.'; }
     } else {
-      if (w>0){ cls='info'; msg='نسبة الهدر في طلبك '+pctText(w)+'. في حلّنا كل إضافة ترفع الفاتورة، فلا شيء يدفعك لها.'; }
-      else { cls='good'; msg='طلبك أخذ خصم '+N(Math.round(discount(s)*100)+'%')+' على التوصيل، فتدفع '+sar(fee.b(s))+' بدل '+sar(FLAT_FEE)+'، ونسبة الهدر '+N('0%')+'.'; }
+      if (w>0){ cls='info'; msg='نسبة الهدر في طلبك '+pctText(w)+'، أي '+fmtInt(ov)+' غ فوق حد '+N(PORTION_G)+' غ. في حلّنا كل إضافة ترفع الفاتورة، فلا شيء يدفعك لها.'; }
+      else if (discount(s)>0){ cls='good'; msg='طلبك أخذ خصم '+N(Math.round(discount(s)*100)+'%')+' على التوصيل، فتدفع '+sar(fee.b(s))+' بدل '+sar(FLAT_FEE)+'، ونسبة الهدر '+N('0%')+'.'; }
+      else { cls='good'; msg='الخصم على التوصيل يبدأ بعد '+N(DISCOUNT_FROM)+' ر.س، ونسبة الهدر '+N('0%')+'.'; }
     }
     $('readout-'+app).innerHTML =
       '<div class="stat"><span class="stat-k">إضافات بـ10 ر.س تكلفك الآن</span>'+acHtml+'</div>'+
@@ -938,25 +930,25 @@ a{color:inherit}
       '<div class="cal-foot"><b></b><span class="cal-note"></span></div>'+
       '<div class="cal-qty"><span class="cal-qk">كمية الهدر</span><span class="cal-g"></span><span class="cal-ml"></span></div>';
   }
-  // Amount of add-ons: food in grams, drinks in millilitres.
-  function wasteAmount(c, order){
-    var b = baseOf(c, order), a = {g:0, ml:0};
-    MENU.forEach(function(m){ var q = c[m.id] - (m.id===b ? 1 : 0); if (q > 0) a[m.ml ? 'ml' : 'g'] += m.g*q; });
-    return a;
+  // The part above PORTION_G, split into food (g) and drinks (ml): the portion is filled by food first.
+  function wasteAmount(c){
+    var food = 0, drink = 0;
+    MENU.forEach(function(m){ if (m.ml) drink += m.g*c[m.id]; else food += m.g*c[m.id]; });
+    return {g:Math.max(0, food-PORTION_G), ml:Math.max(0, drink-Math.max(0, PORTION_G-food))};
   }
-  // The tube fills to the waste ratio; meals leave it empty.
+  // The tube fills to the waste ratio; an order within the portion leaves it empty.
   function renderCal(app){
-    var el = $('cal-'+app), c = state[app], o = state.order[app], s = sub(c), wv = wasteValue(c, o), w = wasteRatio(c, o), a = wasteAmount(c, o);
-    el.classList.toggle('has-waste', wv>0);
-    el.setAttribute('aria-label', 'نسبة الهدر '+Math.round(w*1000)/10+'%: إضافات بقيمة '+money(wv)+' ر.س من '+money(s)+' ر.س، '+a.g+' غ و'+a.ml+' مل');
+    var el = $('cal-'+app), c = state[app], wt = sumOf(c,'g'), ov = overWeight(c), w = wasteRatio(c), a = wasteAmount(c);
+    el.classList.toggle('has-waste', ov>0);
+    el.setAttribute('aria-label', 'نسبة الهدر '+Math.round(w*1000)/10+'%: وزن الطلب '+wt+' غ، منها '+ov+' غ فوق حد '+PORTION_G+' غ ('+a.g+' غ أكل و'+a.ml+' مل مشروبات)');
     el.querySelector('.cal-v').innerHTML = pctText(w);
     var liq = el.querySelector('.cal-liquid');
     liq.style.height = (w*100).toFixed(2)+'%';
     liq.classList.toggle('empty', w<=0);
     var foot = el.querySelector('.cal-foot');
-    foot.className = 'cal-foot ' + (wv>0 ? 'over' : 'ok');
-    foot.querySelector('b').innerHTML = N(wv>0 ? '+'+money(wv) : '0');
-    foot.querySelector('.cal-note').textContent = wv>0 ? 'ر.س إضافات' : 'بدون إضافات';
+    foot.className = 'cal-foot ' + (ov>0 ? 'over' : 'ok');
+    foot.querySelector('b').innerHTML = fmtInt(wt)+' غ';
+    foot.querySelector('.cal-note').innerHTML = 'الحد '+N(PORTION_G)+' غ';
     el.querySelector('.cal-g').innerHTML = '<b>'+fmtInt(a.g)+'</b> غ';
     el.querySelector('.cal-ml').innerHTML = '<b>'+fmtInt(a.ml)+'</b> مل';
   }
@@ -982,10 +974,13 @@ a{color:inherit}
     g += '<text class="guide-label" x="'+x(z1)+'" y="'+(H-m.b+40)+'" text-anchor="middle">مع الإضافات</text>';
     g += '<text class="ttl" x="'+((m.l+W-m.r)/2)+'" y="'+(H-10)+'" text-anchor="middle">قيمة الأكل في السلة (ر.س)</text>';
     g += '<text class="ttl" x="'+m.l+'" y="14" text-anchor="start">ما يدفعه الزبون (ر.س)</text>';
-    // our model: fee shrinks linearly, so the total keeps rising
-    g += '<path class="ln b" d="M'+x(1)+','+y(tb(1))+' L'+x(THRESHOLD)+','+y(THRESHOLD)+'"/>';
+    // up to DISCOUNT_FROM both models charge the full fee
+    g += '<path class="ln s" d="M'+x(1)+','+y(1+FLAT_FEE)+' L'+x(DISCOUNT_FROM)+','+y(DISCOUNT_FROM+FLAT_FEE)+'"/>';
+    g += '<text class="note" x="'+x(2)+'" y="'+y(31)+'" text-anchor="start">نفس الرسوم حتى '+DISCOUNT_FROM+'</text>';
+    // our model: fee shrinks linearly from DISCOUNT_FROM, so the total keeps rising
+    g += '<path class="ln b" d="M'+x(DISCOUNT_FROM)+','+y(tb(DISCOUNT_FROM))+' L'+x(THRESHOLD)+','+y(THRESHOLD)+'"/>';
     // current model: flat fee until the threshold, then a sudden drop
-    g += '<path class="ln a" d="M'+x(1)+','+y(1+FLAT_FEE)+' L'+x(THRESHOLD)+','+y(THRESHOLD+FLAT_FEE)+'"/>';
+    g += '<path class="ln a" d="M'+x(DISCOUNT_FROM)+','+y(DISCOUNT_FROM+FLAT_FEE)+' L'+x(THRESHOLD)+','+y(THRESHOLD+FLAT_FEE)+'"/>';
     g += '<line class="drop" x1="'+x(THRESHOLD)+'" x2="'+x(THRESHOLD)+'" y1="'+y(THRESHOLD+FLAT_FEE)+'" y2="'+y(THRESHOLD)+'"/>';
     // above the threshold both models deliver for free
     g += '<path class="ln s" d="M'+x(THRESHOLD)+','+y(THRESHOLD)+' L'+x(X1)+','+y(X1)+'"/>';
@@ -998,7 +993,7 @@ a{color:inherit}
   }
 
   function renderSteps(){
-    $('steps').innerHTML = [10, 25, 30, 35].map(function(s){
+    $('steps').innerHTML = [DISCOUNT_FROM, 25, 30, THRESHOLD].map(function(s){
       var f = fee.b(s);
       return '<div><small>طلب '+N(s)+' ر.س</small><b>'+(f===0 ? 'مجاني' : N(money(f))+' ر.س')+'</b></div>';
     }).join('');
@@ -1059,7 +1054,6 @@ a{color:inherit}
       var from = page.dataset.sim, to = btn.dataset.sim;
       if (from === to) return;
       state[to] = Object.assign({}, state[from]);
-      state.order[to] = state.order[from].slice();
       state.tab[to] = state.tab[from];
       var top = $('menu-'+from).closest('.app-scroll').scrollTop;
       page.dataset.sim = to;
@@ -1072,11 +1066,11 @@ a{color:inherit}
   });
   $('reset').addEventListener('click', function(){
     var ba = state.a, bb = state.b;
-    state.a = fresh(); state.b = fresh(); state.order = {a:['burger'], b:['burger']}; update(); flash('a',ba); flash('b',bb);
+    state.a = fresh(); state.b = fresh(); update(); flash('a',ba); flash('b',bb);
   });
   $('smart').addEventListener('click', function(){
     var ba = state.a, bb = state.b;
-    state.a = cheapest('a'); state.b = cheapest('b'); state.order = {a:['burger'], b:['burger']}; update(); flash('a',ba); flash('b',bb);
+    state.a = cheapest('a'); state.b = cheapest('b'); update(); flash('a',ba); flash('b',bb);
   });
   ['orders','share','grams'].forEach(function(id){ $(id).addEventListener('input', renderImpact); });
 
