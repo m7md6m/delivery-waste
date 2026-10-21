@@ -160,7 +160,7 @@ a{color:inherit}
 .toolbar .hint{font-size:var(--fs-small);color:var(--muted);flex:1 1 260px;min-width:0}
 .phones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,5vw,56px)}
 .device{display:flex;flex-direction:column;gap:18px;min-width:0}
-.device-label{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:4.4em;max-width:380px;width:100%;margin-inline:auto;font-size:var(--fs-small);color:var(--muted);line-height:1.5}
+.device-label{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:4.4em;max-width:458px;width:100%;margin-inline:auto;font-size:var(--fs-small);color:var(--muted);line-height:1.5}
 
 /* iPhone 17 shell: 402 x 874 pt screen, Dynamic Island, side buttons */
 .iphone{--frame:var(--mist);--frame-dk:var(--mist-dk);position:relative;width:min(100%,380px);height:clamp(600px,calc(100svh - 110px),790px);margin-inline:auto;border-radius:62px;padding:4px;background:linear-gradient(135deg,var(--frame) 0%,var(--frame-dk) 42%,var(--frame) 70%,var(--frame-dk) 100%);box-shadow:0 34px 70px var(--shade)}
@@ -248,7 +248,26 @@ a{color:inherit}
 .is-b .paybtn{background:var(--app-mint)}
 .paybtn strong{font-family:var(--f-display);font-size:1.15rem}
 
-.readout{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;width:100%;margin-inline:auto}
+/* calorie bar beside each phone: green up to one average meal, orange beyond it */
+.phone-row{display:flex;align-items:stretch;justify-content:center;gap:14px;width:100%;max-width:458px;margin-inline:auto}
+.phone-row .iphone{flex:0 1 380px;min-width:0;margin-inline:0}
+.is-a .cal{order:-1}
+.cal{flex:none;width:64px;display:flex;flex-direction:column;align-items:center;gap:10px;padding-block:28px 22px}
+.cal-head{display:grid;justify-items:center;line-height:1.2}
+.cal-v{font:800 1.1rem var(--f-display);color:var(--ink)}
+.cal-k{font-size:.72rem;color:var(--muted)}
+.cal-track{position:relative;flex:1;width:22px;border-radius:11px;background:var(--surface-2);border:1px solid var(--line)}
+.cal-fill{position:absolute;inset-inline:0;bottom:0;height:0;border-radius:11px;transition:height .45s ease,bottom .45s ease}
+.cal-ok{background:var(--green)}
+.cal-ok.capped{border-radius:0 0 11px 11px}
+.cal-over{background:var(--orange);border-radius:11px 11px 0 0}
+.cal-meal{position:absolute;inset-inline:-12px;height:0;border-top:2px dashed var(--ink);transition:bottom .45s ease}
+.cal-meal span{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:max-content;font:700 .7rem var(--f-num);color:var(--ink);background:var(--bg);padding-inline:3px;border-radius:4px}
+.cal-foot{display:grid;justify-items:center;font-size:.72rem;line-height:1.3;color:var(--muted);text-align:center}
+.cal-foot b{font:800 1rem var(--f-display)}
+.cal-foot.ok b{color:var(--green)}
+.cal-foot.over b{color:var(--orange-ink)}
+.readout{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:458px;width:100%;margin-inline:auto}
 .stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;min-width:0}
 .stat-k{display:block;font-size:.8rem;color:var(--muted);line-height:1.5}
 .stat-v{display:block;font-family:var(--f-display);font-weight:700;font-size:1.35rem;line-height:1.5}
@@ -382,6 +401,8 @@ a{color:inherit}
   .sim-switch button[data-sim="a"][aria-pressed="true"]{background:var(--orange);border-color:var(--orange);color:var(--on-orange)}
   .sim-switch button[data-sim="b"][aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--on-accent)}
   .iphone{width:100%;height:calc(100vh - var(--sim-h) - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));height:calc(100dvh - var(--sim-h) - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));border-radius:0;padding:0;background:none;box-shadow:none}
+  .cal{display:none}
+  .phone-row{display:block;max-width:none}
   .bezel{border-radius:0;padding:0;background:none}
   .screen{border-radius:0}
   .app-cover{margin-top:12px}
@@ -475,7 +496,7 @@ a{color:inherit}
     <div class="sec-head">
       <p class="eyebrow">المحاكي</p>
       <h2>نفس المطعم ونفس الأسعار ونفس حد الـ35 ريالًا</h2>
-      <p>الزبون في هذا المثال يريد برجرًا واحدًا فقط. ضع نفس الطلب في الجوالين وقارن رسوم التوصيل، ثم راقب كم تكلفك إضافة الناجتس فعليًا في كل تطبيق.</p>
+      <p>الزبون في هذا المثال يريد برجرًا واحدًا فقط. ضع نفس الطلب في الجوالين وقارن رسوم التوصيل، ثم راقب كم تكلفك إضافة الناجتس فعليًا في كل تطبيق. الشريط بجانب كل جوال يقيس سعرات الطلب، وما يتجاوز متوسط الوجبة الواحدة (700 سعرة تقريبًا) نعدّه أكلًا زائدًا.</p>
     </div>
     <aside class="try-qr" aria-label="افتح المحاكي على جوالك">
       <svg class="qr" viewBox="-4 -4 37 37" shape-rendering="crispEdges" role="img" aria-label="رمز QR لرابط الموقع"><rect class="qr-bg" x="-4" y="-4" width="37" height="37"/><path class="qr-fg" d="M0 0h7v1h-7zM8 0h2v1h-2zM12 0h1v1h-1zM14 0h1v1h-1zM16 0h5v1h-5zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h2v1h-2zM13 1h2v1h-2zM16 1h2v1h-2zM20 1h1v1h-1zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM9 2h1v1h-1zM11 2h1v1h-1zM13 2h2v1h-2zM16 2h1v1h-1zM18 2h1v1h-1zM20 2h1v1h-1zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h8v1h-8zM17 3h1v1h-1zM19 3h1v1h-1zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h2v1h-2zM15 4h2v1h-2zM19 4h2v1h-2zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h6v1h-6zM17 5h3v1h-3zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM8 7h1v1h-1zM11 7h2v1h-2zM14 7h7v1h-7zM0 8h1v1h-1zM2 8h2v1h-2zM5 8h3v1h-3zM9 8h1v1h-1zM11 8h2v1h-2zM14 8h1v1h-1zM17 8h1v1h-1zM19 8h1v1h-1zM22 8h1v1h-1zM25 8h1v1h-1zM27 8h2v1h-2zM1 9h4v1h-4zM8 9h2v1h-2zM11 9h2v1h-2zM16 9h5v1h-5zM22 9h1v1h-1zM24 9h1v1h-1zM28 9h1v1h-1zM4 10h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM10 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM21 10h1v1h-1zM23 10h1v1h-1zM26 10h2v1h-2zM1 11h1v1h-1zM4 11h2v1h-2zM12 11h3v1h-3zM18 11h3v1h-3zM23 11h1v1h-1zM28 11h1v1h-1zM0 12h1v1h-1zM3 12h1v1h-1zM6 12h1v1h-1zM8 12h1v1h-1zM10 12h2v1h-2zM13 12h1v1h-1zM17 12h1v1h-1zM20 12h1v1h-1zM25 12h2v1h-2zM2 13h4v1h-4zM7 13h1v1h-1zM10 13h6v1h-6zM17 13h1v1h-1zM19 13h1v1h-1zM22 13h1v1h-1zM26 13h3v1h-3zM0 14h2v1h-2zM4 14h1v1h-1zM6 14h1v1h-1zM9 14h2v1h-2zM12 14h1v1h-1zM14 14h1v1h-1zM18 14h2v1h-2zM21 14h1v1h-1zM23 14h1v1h-1zM26 14h3v1h-3zM3 15h2v1h-2zM7 15h1v1h-1zM10 15h3v1h-3zM14 15h2v1h-2zM18 15h1v1h-1zM23 15h1v1h-1zM27 15h1v1h-1zM0 16h1v1h-1zM3 16h1v1h-1zM6 16h3v1h-3zM11 16h2v1h-2zM14 16h3v1h-3zM18 16h3v1h-3zM23 16h3v1h-3zM27 16h1v1h-1zM2 17h2v1h-2zM5 17h1v1h-1zM7 17h1v1h-1zM15 17h1v1h-1zM20 17h1v1h-1zM23 17h1v1h-1zM25 17h3v1h-3zM0 18h1v1h-1zM2 18h6v1h-6zM9 18h3v1h-3zM13 18h3v1h-3zM22 18h2v1h-2zM26 18h1v1h-1zM2 19h1v1h-1zM5 19h1v1h-1zM7 19h2v1h-2zM11 19h5v1h-5zM17 19h2v1h-2zM22 19h1v1h-1zM26 19h1v1h-1zM1 20h3v1h-3zM5 20h4v1h-4zM10 20h1v1h-1zM12 20h3v1h-3zM17 20h10v1h-10zM8 21h1v1h-1zM11 21h2v1h-2zM16 21h5v1h-5zM24 21h5v1h-5zM0 22h7v1h-7zM8 22h2v1h-2zM14 22h1v1h-1zM16 22h5v1h-5zM22 22h1v1h-1zM24 22h2v1h-2zM27 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h2v1h-2zM11 23h4v1h-4zM20 23h1v1h-1zM24 23h2v1h-2zM28 23h1v1h-1zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM10 24h2v1h-2zM15 24h1v1h-1zM17 24h1v1h-1zM20 24h5v1h-5zM26 24h3v1h-3zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM8 25h1v1h-1zM12 25h1v1h-1zM15 25h2v1h-2zM19 25h3v1h-3zM24 25h2v1h-2zM28 25h1v1h-1zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM8 26h3v1h-3zM13 26h2v1h-2zM16 26h1v1h-1zM19 26h2v1h-2zM26 26h1v1h-1zM28 26h1v1h-1zM0 27h1v1h-1zM6 27h1v1h-1zM9 27h2v1h-2zM12 27h3v1h-3zM16 27h1v1h-1zM20 27h1v1h-1zM23 27h3v1h-3zM27 27h1v1h-1zM0 28h7v1h-7zM8 28h1v1h-1zM10 28h5v1h-5zM16 28h1v1h-1zM18 28h5v1h-5zM24 28h1v1h-1zM27 28h1v1h-1z"/></svg>
@@ -496,6 +517,7 @@ a{color:inherit}
   <div class="phones">
     <article class="device is-a" aria-label="التطبيق الحالي">
       <div class="device-label"><span class="pill bad">الوضع الحالي</span><span>توصيل 10 ر.س، ويصير مجانيًا دفعة واحدة عند 35 ر.س</span></div>
+      <div class="phone-row">
       <div class="iphone">
         <span class="hw action"></span><span class="hw vol-up"></span><span class="hw vol-dn"></span><span class="hw power"></span><span class="hw cam"></span>
         <div class="bezel"><div class="screen">
@@ -515,11 +537,14 @@ a{color:inherit}
           <div class="home"></div>
         </div></div>
       </div>
+      <div class="cal" id="cal-a" role="img"></div>
+      </div>
       <div class="readout" id="readout-a"></div>
     </article>
 
     <article class="device is-b" aria-label="تطبيق التوصيل المتدرج">
       <div class="device-label"><span class="pill good">حلّنا: توصيل ينقص بالتدريج</span><span>يبدأ 10 ر.س وينقص مع كل ريال حتى يصير مجانيًا عند 35 ر.س</span></div>
+      <div class="phone-row">
       <div class="iphone">
         <span class="hw action"></span><span class="hw vol-up"></span><span class="hw vol-dn"></span><span class="hw power"></span><span class="hw cam"></span>
         <div class="bezel"><div class="screen">
@@ -538,6 +563,8 @@ a{color:inherit}
           <div class="cart" id="checkout-b" aria-live="polite"></div>
           <div class="home"></div>
         </div></div>
+      </div>
+      <div class="cal" id="cal-b" role="img"></div>
       </div>
       <div class="readout" id="readout-b"></div>
     </article>
@@ -592,7 +619,7 @@ a{color:inherit}
           <tr><th scope="row">إجمالي البرجر مع الناجتس</th><td id="t-a-2"></td><td id="t-b-2"></td></tr>
           <tr class="key"><th scope="row">التكلفة الفعلية لإضافة الناجتس</th><td id="t-a-3"></td><td id="t-b-3"></td></tr>
           <tr><th scope="row">ماذا سيطلب الزبون؟</th><td id="t-a-4"></td><td id="t-b-4"></td></tr>
-          <tr><th scope="row">أكل زائد في الطلب</th><td id="t-a-5"></td><td id="t-b-5"></td></tr>
+          <tr><th scope="row">سعرات زائدة عن الوجبة</th><td id="t-a-5"></td><td id="t-b-5"></td></tr>
         </tbody>
       </table>
     </div>
@@ -641,6 +668,8 @@ a{color:inherit}
   document.documentElement.dir = 'rtl';
 
   var THRESHOLD = 35, FLAT_FEE = 10;
+  // Average calories of one main meal, assuming about 2,000 kcal a day.
+  var MEAL_KCAL = 700;
   var ICONS = {
     burger:'<path d="M4.5 10.5C4.5 7 7.9 4.5 12 4.5s7.5 2.5 7.5 6z" class="fb"/><path d="M4 13.5c1.3-1 2.7-1 4 0s2.7 1 4 0 2.7-1 4 0 2.7 1 4 0"/><path d="M5 16.5h14v.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 17z" class="fb"/>',
     nuggets:'<ellipse class="fb" cx="8.5" cy="9.5" rx="4.2" ry="3.2" transform="rotate(-15 8.5 9.5)"/><ellipse class="fb" cx="15.5" cy="12" rx="4.2" ry="3.2" transform="rotate(20 15.5 12)"/><ellipse class="fb" cx="9.5" cy="16.5" rx="4" ry="3" transform="rotate(5 9.5 16.5)"/>',
@@ -697,14 +726,12 @@ a{color:inherit}
     b:function(s){ return s<=0 ? 0 : r2(FLAT_FEE*(1-discount(s))); }
   };
   function total(app,c){ var s = sub(c); return r2(s + fee[app](s)); }
-  function extra(c){ return r2(sub(c) - (c.burger>0 ? PRICE.burger : 0)); }
-  // Weight and calories of the whole basket, or only of what goes beyond the one burger the customer wanted.
-  function sumOf(c, key, extraOnly){
-    return MENU.reduce(function(s,m){
-      var q = c[m.id] - (extraOnly && m.id==='burger' ? Math.min(1, c[m.id]) : 0);
-      return s + m[key]*q;
-    }, 0);
+  // Weight (g) or calories (kcal) of the whole basket.
+  function sumOf(c, key){
+    return MENU.reduce(function(s,m){ return s + m[key]*c[m.id]; }, 0);
   }
+  // Extra food is measured in calories: whatever the basket holds beyond one average meal.
+  function extraKcal(c){ return Math.max(0, sumOf(c,'kcal') - MEAL_KCAL); }
   function fmtInt(n){ return N(Math.round(n).toLocaleString('en-US')); }
   function plus(c,id){ var o = Object.assign({}, c); o[id]++; return o; }
   function addCost(app,c,id){ return r2(total(app,plus(c,id)) - total(app,c)); }
@@ -742,10 +769,7 @@ a{color:inherit}
       return (c[m.id]>1 ? c[m.id]+'× ' : '') + shortName(m);
     }).join(' + ');
   }
-  function extrasText(c){
-    var items = MENU.filter(function(m){ return m.id==='burger' ? c.burger>1 : c[m.id]>0; }).map(shortName);
-    return fmtInt(sumOf(c,'g',true))+' غ' + (items.length ? ' <span class="cell-note">('+items.join(' + ')+')</span>' : '');
-  }
+  function extrasText(c){ return fmtInt(extraKcal(c))+' سعرة'; }
 
   function buildPhone(app){
     var root = $('menu-'+app).closest('.screen');
@@ -836,28 +860,53 @@ a{color:inherit}
   }
 
   function renderReadout(app){
-    var c = state[app], s = sub(c), t = total(app,c), ac = addCost(app,c,'nuggets'), ex = extra(c);
+    var c = state[app], s = sub(c), t = total(app,c), ac = addCost(app,c,'nuggets'), exK = extraKcal(c);
     var acHtml = ac<=0
       ? '<span class="stat-v bad-t">'+N(money(Math.abs(ac)))+' <small>ر.س</small></span><span class="stat-k">'+(ac<0?'توفّر عليك':'مجانًا فعليًا')+'</span>'
       : '<span class="stat-v good-t">'+N(money(ac))+' <small>ر.س</small></span><span class="stat-k">'+(ac<PRICE.nuggets?'أقل من سعرها بسبب خصم التوصيل':'ثمنها الكامل')+'</span>';
-    var exHtml = ex>0
-      ? '<span class="stat-v bad-t">'+fmtInt(sumOf(c,'g',true))+' <small>غ</small></span><span class="stat-k">'+fmtInt(sumOf(c,'kcal',true))+' سعرة زائدة، بقيمة '+sar(ex)+'</span>'
-      : '<span class="stat-v good-t">لا يوجد</span><span class="stat-k">الطلب على قدر الحاجة</span>';
+    var exHtml = exK>0
+      ? '<span class="stat-v bad-t">'+fmtInt(exK)+' <small>سعرة</small></span><span class="stat-k">فوق متوسط الوجبة الواحدة ('+N(MEAL_KCAL)+' سعرة)</span>'
+      : '<span class="stat-v good-t">لا يوجد</span><span class="stat-k">الطلب ضمن وجبة واحدة</span>';
 
     var cls, msg;
-    if (c.burger===0){ cls='info'; msg='أضف البرجر لتعود إلى المثال. الزبون هنا يريد برجرًا واحدًا.'; }
+    if (s===0){ cls='info'; msg='السلة فارغة. أضف وجبتك لتبدأ.'; }
     else if (app==='a'){
       if (s<THRESHOLD){ cls='bad'; msg='إجماليك الآن '+sar(t)+'. لو أضفت أكلًا بقيمة '+sar(THRESHOLD-s)+' يصبح '+sar(THRESHOLD)+' فقط. التطبيق يكافئك على طلب أكثر.'; }
-      else if (ex>0){ cls='bad'; msg='حصلت على توصيل مجاني، لكن معك أكل زائد بقيمة '+sar(ex)+' لم تكن تحتاجه.'; }
-      else { cls='info'; msg='حصلت على توصيل مجاني.'; }
+      else if (exK>0){ cls='bad'; msg='حصلت على توصيل مجاني، لكن طلبك تجاوز متوسط الوجبة الواحدة بـ'+fmtInt(exK)+' سعرة.'; }
+      else { cls='info'; msg='حصلت على توصيل مجاني، وطلبك ضمن وجبة واحدة.'; }
     } else {
-      if (ex>0){ cls='info'; msg='الإضافات خفّضت التوصيل، لكنها رفعت إجماليك '+sar(t-total('b',fresh()))+' مقارنة بالبرجر وحده. الخصم دائمًا أقل من سعر الصنف.'; }
-      else { cls='good'; msg='طلبك وحده أخذ خصم '+N(Math.round(discount(s)*100)+'%')+' على التوصيل، فتدفع '+sar(fee.b(s))+' بدل '+sar(FLAT_FEE)+'. لا يوجد سبب لإضافة شيء.'; }
+      if (exK>0){ cls='info'; msg='طلبك تجاوز متوسط الوجبة الواحدة بـ'+fmtInt(exK)+' سعرة. في حلّنا كل إضافة ترفع الفاتورة، فلا شيء يدفعك لها.'; }
+      else { cls='good'; msg='طلبك أخذ خصم '+N(Math.round(discount(s)*100)+'%')+' على التوصيل، فتدفع '+sar(fee.b(s))+' بدل '+sar(FLAT_FEE)+'، وطلبك ضمن وجبة واحدة.'; }
     }
     $('readout-'+app).innerHTML =
       '<div class="stat"><span class="stat-k">إضافة ناجتس الآن تكلفك</span>'+acHtml+'</div>'+
-      '<div class="stat"><span class="stat-k">أكل زائد في السلة</span>'+exHtml+'</div>'+
+      '<div class="stat"><span class="stat-k">سعرات زائدة</span>'+exHtml+'</div>'+
       '<p class="verdict '+cls+'">'+msg+'</p>';
+  }
+
+  function buildCal(app){
+    $('cal-'+app).innerHTML =
+      '<div class="cal-head"><b class="cal-v"></b><span class="cal-k">سعرة</span></div>'+
+      '<div class="cal-track"><div class="cal-fill cal-ok"></div><div class="cal-fill cal-over"></div>'+
+      '<div class="cal-meal" title="متوسط الوجبة الواحدة"><span>'+MEAL_KCAL+'</span></div></div>'+
+      '<div class="cal-foot"><b></b><span></span></div>';
+  }
+  function renderCal(app){
+    var el = $('cal-'+app), k = sumOf(state[app],'kcal'), over = Math.max(0, k - MEAL_KCAL);
+    var max = Math.max(MEAL_KCAL*2, k*1.1);
+    function pct(v){ return (v/max*100).toFixed(2)+'%'; }
+    el.setAttribute('aria-label', 'سعرات الطلب '+Math.round(k)+'، ومتوسط الوجبة الواحدة '+MEAL_KCAL);
+    el.querySelector('.cal-v').innerHTML = fmtInt(k);
+    var ok = el.querySelector('.cal-ok'), up = el.querySelector('.cal-over');
+    ok.style.height = pct(Math.min(k, MEAL_KCAL));
+    ok.classList.toggle('capped', over>0);
+    up.style.bottom = pct(MEAL_KCAL);
+    up.style.height = pct(over);
+    el.querySelector('.cal-meal').style.bottom = pct(MEAL_KCAL);
+    var foot = el.querySelector('.cal-foot');
+    foot.className = 'cal-foot ' + (over>0 ? 'over' : 'ok');
+    foot.querySelector('b').innerHTML = N((over>0 ? '+' : '') + Math.round(over).toLocaleString('en-US'));
+    foot.querySelector('span').textContent = over>0 ? 'سعرة زائدة' : 'ضمن الوجبة';
   }
 
   function renderChart(){
@@ -931,7 +980,7 @@ a{color:inherit}
   }
 
   function update(){
-    ['a','b'].forEach(function(app){ renderMenu(app); renderCheckout(app); renderReadout(app); });
+    ['a','b'].forEach(function(app){ renderMenu(app); renderCheckout(app); renderReadout(app); renderCal(app); });
   }
 
   // Show the full menu, scroll the phone to the first item that changed, then ring the changed items.
@@ -948,7 +997,7 @@ a{color:inherit}
     sc.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
   }
 
-  buildPhone('a'); buildPhone('b');
+  buildPhone('a'); buildPhone('b'); buildCal('a'); buildCal('b');
 
   // Phone-size simulator: one app at a time. Switching keeps the same order and scroll
   // position, so only the delivery model changes.
