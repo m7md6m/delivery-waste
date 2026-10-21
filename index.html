@@ -29,6 +29,7 @@
   --orange-ink:#9A5800;
   --orange-soft:rgb(255 163 29 / .15);
   --orange-line:rgb(224 127 0 / .4);
+  --orange-hi:#FFB547;
   --on-accent:#FFFFFF;
   --on-orange:#00313A;
   --shade:rgb(0 59 68 / .16);
@@ -60,7 +61,7 @@
   :root:not([data-theme="light"]){
     --bg:#0A3940;--bg-2:#0E454D;--surface:#0F464E;--surface-2:#134F57;--line:#2A6169;--ink:#EEF7F5;--muted:#A3C2BF;
     --green:#2DC777;--green-hi:#6FE0A3;--green-soft:rgb(45 199 119 / .14);--green-line:rgb(45 199 119 / .42);
-    --orange:#FFA31D;--orange-ink:#FFB547;--orange-soft:rgb(255 163 29 / .15);--orange-line:rgb(255 163 29 / .45);
+    --orange:#FFA31D;--orange-ink:#FFB547;--orange-soft:rgb(255 163 29 / .15);--orange-line:rgb(255 163 29 / .45);--orange-hi:#FFC56B;
     --on-accent:#00313A;--shade:rgb(0 10 12 / .45);--sun:block;--moon:none;
     color-scheme:dark;
   }
@@ -68,7 +69,7 @@
 :root[data-theme="dark"]{
   --bg:#0A3940;--bg-2:#0E454D;--surface:#0F464E;--surface-2:#134F57;--line:#2A6169;--ink:#EEF7F5;--muted:#A3C2BF;
   --green:#2DC777;--green-hi:#6FE0A3;--green-soft:rgb(45 199 119 / .14);--green-line:rgb(45 199 119 / .42);
-  --orange:#FFA31D;--orange-ink:#FFB547;--orange-soft:rgb(255 163 29 / .15);--orange-line:rgb(255 163 29 / .45);
+  --orange:#FFA31D;--orange-ink:#FFB547;--orange-soft:rgb(255 163 29 / .15);--orange-line:rgb(255 163 29 / .45);--orange-hi:#FFC56B;
   --on-accent:#00313A;--shade:rgb(0 10 12 / .45);--sun:block;--moon:none;
   color-scheme:dark;
 }
@@ -256,25 +257,42 @@ a{color:inherit}
 .is-b .paybtn{background:var(--app-mint)}
 .paybtn strong{font-family:var(--f-display);font-size:1.15rem}
 
-/* calorie bar beside each phone: green up to one average meal, orange beyond it */
+/* waste meter beside each phone: a measuring tube that stays empty for meals and fills with add-ons */
 .phone-row{display:flex;align-items:stretch;justify-content:center;gap:14px;width:100%;max-width:458px;margin-inline:auto}
 .phone-row .iphone{flex:0 1 380px;min-width:0;margin-inline:0}
 .is-a .cal{order:-1}
-.cal{flex:none;width:64px;display:flex;flex-direction:column;align-items:center;gap:10px;padding-block:28px 22px}
+.cal{flex:none;width:64px;display:flex;flex-direction:column;align-items:center;gap:10px;padding-block:28px 18px}
 .cal-head{display:grid;justify-items:center;line-height:1.2}
-.cal-v{font:800 1.1rem var(--f-display);color:var(--ink)}
+.cal-v{font:800 1.1rem var(--f-display);color:var(--ink);transition:color .3s}
+.cal.has-waste .cal-v{color:var(--orange-ink)}
 .cal-k{font-size:.72rem;color:var(--muted)}
-.cal-track{position:relative;flex:1;width:22px;border-radius:11px;background:var(--surface-2);border:1px solid var(--line)}
-.cal-fill{position:absolute;inset-inline:0;bottom:0;height:0;border-radius:11px;transition:height .45s ease,bottom .45s ease}
-.cal-ok{background:var(--green)}
-.cal-ok.capped{border-radius:0 0 11px 11px}
-.cal-over{background:var(--orange);border-radius:11px 11px 0 0}
-.cal-meal{position:absolute;inset-inline:-12px;height:0;border-top:2px dashed var(--ink);transition:bottom .45s ease}
-.cal-meal span{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:max-content;font:700 .7rem var(--f-num);color:var(--ink);background:var(--bg);padding-inline:3px;border-radius:4px}
+.cal-track{position:relative;flex:1;width:30px;border-radius:15px;overflow:hidden;background:var(--surface-2);border:1px solid var(--line);box-shadow:inset 0 2px 8px var(--shade)}
+/* tick marks at 25, 50 and 75% */
+.cal-track::after{content:"";position:absolute;top:0;bottom:0;inset-inline-end:0;width:8px;z-index:2;
+  background:linear-gradient(to top,transparent calc(25% - 1px),var(--line) calc(25% - 1px) 25%,transparent 25% calc(50% - 1px),var(--line) calc(50% - 1px) 50%,transparent 50% calc(75% - 1px),var(--line) calc(75% - 1px) 75%,transparent 75%)}
+/* glass sheen */
+.cal-track::before{content:"";position:absolute;top:8px;bottom:8px;inset-inline-start:6px;width:4px;border-radius:2px;z-index:3;background:linear-gradient(rgb(255 255 255 / .6),rgb(255 255 255 / .08))}
+.cal-liquid{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(to top,var(--orange),var(--orange-hi));transition:height .9s cubic-bezier(.34,1.5,.6,1)}
+.cal-liquid::before,.cal-liquid::after{content:"";position:absolute;left:0;right:0;bottom:100%;height:10px;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='10' viewBox='0 0 32 10'%3E%3Cpath d='M0 5 Q8 0 16 5 T32 5 V10 H0Z'/%3E%3C/svg%3E") repeat-x 0 0/32px 10px;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='10' viewBox='0 0 32 10'%3E%3Cpath d='M0 5 Q8 0 16 5 T32 5 V10 H0Z'/%3E%3C/svg%3E") repeat-x 0 0/32px 10px;transition:opacity .3s}
+.cal-liquid::before{background:var(--orange);opacity:.45;bottom:calc(100% - 3px);animation:wave-back 3.2s linear infinite}
+.cal-liquid::after{background:var(--orange-hi);animation:wave-front 1.9s linear infinite}
+.cal-liquid.empty::before,.cal-liquid.empty::after{opacity:0}
+.cal-bubbles{position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 70%,rgb(255 255 255 / .55) 0 1.6px,transparent 2.4px),radial-gradient(circle at 68% 30%,rgb(255 255 255 / .45) 0 1.2px,transparent 2px);
+  background-size:100% 46px;animation:bubbles 2.8s linear infinite}
+@keyframes wave-front{to{-webkit-mask-position:32px 0;mask-position:32px 0}}
+@keyframes wave-back{to{-webkit-mask-position:-32px 0;mask-position:-32px 0}}
+@keyframes bubbles{to{background-position:0 -46px,0 -46px}}
 .cal-foot{display:grid;justify-items:center;font-size:.72rem;line-height:1.3;color:var(--muted);text-align:center}
-.cal-foot b{font:800 1rem var(--f-display)}
-.cal-foot.ok b{color:var(--green)}
+.cal-foot b{font:800 1rem var(--f-display);color:var(--muted)}
 .cal-foot.over b{color:var(--orange-ink)}
+/* how much is extra: food in grams, drinks in millilitres */
+.cal-qty{display:grid;justify-items:center;gap:1px;width:100%;padding:6px 2px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-size:.72rem;line-height:1.35;color:var(--muted);text-align:center;transition:background .3s,border-color .3s}
+.cal-qk{font-size:.64rem}
+.cal-qty b{font:800 .92rem var(--f-display);color:var(--ink)}
+.cal.has-waste .cal-qty{border-color:var(--orange-line);background:var(--orange-soft)}
+.cal.has-waste .cal-qty b{color:var(--orange-ink)}
 .readout{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:458px;width:100%;margin-inline:auto}
 .stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;min-width:0}
 .stat-k{display:block;font-size:.8rem;color:var(--muted);line-height:1.5}
@@ -902,24 +920,31 @@ a{color:inherit}
   function buildCal(app){
     $('cal-'+app).innerHTML =
       '<div class="cal-head"><b class="cal-v"></b><span class="cal-k">نسبة الهدر</span></div>'+
-      '<div class="cal-track"><div class="cal-fill cal-ok"></div><div class="cal-fill cal-over"></div></div>'+
-      '<div class="cal-foot"><b></b><span class="cal-note"></span></div>';
+      '<div class="cal-track"><div class="cal-liquid empty"><span class="cal-bubbles"></span></div></div>'+
+      '<div class="cal-foot"><b></b><span class="cal-note"></span></div>'+
+      '<div class="cal-qty"><span class="cal-qk">كمية الهدر</span><span class="cal-g"></span><span class="cal-ml"></span></div>';
   }
-  // The meter splits the order by value: green for meals at the bottom, orange for add-ons on top.
+  // Amount of add-ons: food in grams, drinks in millilitres.
+  function wasteAmount(c){
+    var a = {g:0, ml:0};
+    MENU.forEach(function(m){ if (m.cat!=='meals') a[m.ml ? 'ml' : 'g'] += m.g*c[m.id]; });
+    return a;
+  }
+  // The tube fills to the waste ratio; meals leave it empty.
   function renderCal(app){
-    var el = $('cal-'+app), c = state[app], s = sub(c), wv = wasteValue(c), w = wasteRatio(c);
-    var main = s>0 ? (1-w)*100 : 0, extra = s>0 ? w*100 : 0;
-    el.setAttribute('aria-label', 'نسبة الهدر '+Math.round(w*1000)/10+'%: إضافات بقيمة '+money(wv)+' ر.س من '+money(s)+' ر.س');
+    var el = $('cal-'+app), c = state[app], s = sub(c), wv = wasteValue(c), w = wasteRatio(c), a = wasteAmount(c);
+    el.classList.toggle('has-waste', wv>0);
+    el.setAttribute('aria-label', 'نسبة الهدر '+Math.round(w*1000)/10+'%: إضافات بقيمة '+money(wv)+' ر.س من '+money(s)+' ر.س، '+a.g+' غ و'+a.ml+' مل');
     el.querySelector('.cal-v').innerHTML = pctText(w);
-    var ok = el.querySelector('.cal-ok'), up = el.querySelector('.cal-over');
-    ok.style.height = main.toFixed(2)+'%';
-    ok.classList.toggle('capped', extra>0);
-    up.style.bottom = main.toFixed(2)+'%';
-    up.style.height = extra.toFixed(2)+'%';
+    var liq = el.querySelector('.cal-liquid');
+    liq.style.height = (w*100).toFixed(2)+'%';
+    liq.classList.toggle('empty', w<=0);
     var foot = el.querySelector('.cal-foot');
     foot.className = 'cal-foot ' + (wv>0 ? 'over' : 'ok');
     foot.querySelector('b').innerHTML = N(wv>0 ? '+'+money(wv) : '0');
     foot.querySelector('.cal-note').textContent = wv>0 ? 'ر.س إضافات' : 'بدون إضافات';
+    el.querySelector('.cal-g').innerHTML = '<b>'+fmtInt(a.g)+'</b> غ';
+    el.querySelector('.cal-ml').innerHTML = '<b>'+fmtInt(a.ml)+'</b> مل';
   }
 
   function renderChart(){
