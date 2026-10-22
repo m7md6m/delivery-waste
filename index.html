@@ -530,7 +530,7 @@ a{color:inherit}
     <div class="sec-head">
       <p class="eyebrow">المحاكي</p>
       <h2>نفس المطعم ونفس الأسعار ونفس حد الـ35 ريالًا</h2>
-      <p>الزبون في هذا المثال يريد وجبة واحدة بـ25 ر.س. نفترض أن 460 غ تكفي شخصًا واحدًا، فكل ما يزيد عليها، من طبق أو مشروب أو وجبة ثانية، يدخل في نسبة الهدر. ضع نفس الطلب في الجوالين وقارن رسوم التوصيل، والعدّاد بجانب كل جوال يحسب نسبة الهدر في طلبك.</p>
+      <p>الزبون في هذا المثال يريد وجبة واحدة بـ25 ر.س. نفترض أن 460 غ تكفي شخصًا واحدًا، فكل ما يزيد عليها، من طبق أو مشروب أو وجبة ثانية، يدخل في نسبة الهدر. ضع نفس الطلب في الجوالين وقارن رسوم التوصيل، والعدّاد بجانب الوضع الحالي يحسب نسبة الهدر في طلبك.</p>
       <div class="ratio-box">
         <p class="ratio-eq"><span>نسبة الهدر</span><span class="op">=</span><span>(وزن الطلب − 460 غ) ÷ وزن الطلب × 100</span></p>
         <p class="ratio-ex">الهدر يبدأ بعد 460 غ، والمشروبات تُحسب بالوزن (1 مل ≈ 1 غ).</p>
@@ -604,7 +604,6 @@ a{color:inherit}
           <div class="home"></div>
         </div></div>
       </div>
-      <div class="cal" id="cal-b" role="img"></div>
       </div>
       <div class="readout" id="readout-b"></div>
     </article>
@@ -1037,7 +1036,8 @@ a{color:inherit}
   }
 
   function update(){
-    ['a','b'].forEach(function(app){ renderMenu(app); renderCheckout(app); renderReadout(app); renderCal(app); });
+    ['a','b'].forEach(function(app){ renderMenu(app); renderCheckout(app); renderReadout(app); });
+    renderCal('a');
   }
 
   // Show the full menu, scroll the phone to the first item that changed, then ring the changed items.
@@ -1054,7 +1054,7 @@ a{color:inherit}
     sc.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
   }
 
-  buildPhone('a'); buildPhone('b'); buildCal('a'); buildCal('b');
+  buildPhone('a'); buildPhone('b'); buildCal('a');
 
   // Phone-size simulator: one app at a time. Switching keeps the same order and scroll
   // position, so only the delivery model changes.
